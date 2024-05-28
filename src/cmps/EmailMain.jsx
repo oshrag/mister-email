@@ -1,99 +1,98 @@
 
-import { useEffect, useState } from "react"
+// import { useEffect, useState } from "react"
 
-import { EmailList } from "./EmailList"
-import { EmailFilter } from "./EmailFilter"
-import { emailService } from "../services/email.service"
-
-
+// import { EmailList } from "./EmailList"
+// import { EmailFilter } from "./EmailFilter"
+// import { emailService } from "../services/email.service"
 
 
-export function EmailMain() {
-
-    const [emails, setEmails] = useState(null)
-    const [filterBy, setFilterBy] = useState(emailService.getDefaultFilter())
 
 
-    useEffect(() => {
-        loadEmails()
-    }, [filterBy])
+// export function EmailMain() {
 
-    async function loadEmails() {
-        try {
-            const emails = await emailService.query(filterBy)
-            setEmails(emails)
-        } catch (error) {
-            console.log('Having issues with loading emails:', error)
-            // showUserMsg('Problem!')
-        }
-    }
+//     const [emails, setEmails] = useState(null)
+//     const [filterBy, setFilterBy] = useState(emailService.getDefaultFilter())
 
 
-    async function onDeleteEmail(emailId) {
-        try {
-            await emailService.remove(emailId)
-            setEmails(prevEmails => prevEmails.filter(email => email.id !== emailId))
-        } catch (error) {
-            console.log('Having issues deleting email:', error)
-        }
-    }
+//     useEffect(() => {
+//         loadEmails()
+//     }, [filterBy])
+
+//     async function loadEmails() {
+//         try {
+//             const emails = await emailService.query(filterBy)
+//             setEmails(emails)
+//         } catch (error) {
+//             console.log('Having issues with loading emails:', error)
+//             // showUserMsg('Problem!')
+//         }
+//     }
 
 
-    function onSetFilterBy(filterBy) {
-        console.log('EmailIndex onSetFilterBy')
-        console.log('filterBy:', {filterBy})
-        setFilterBy(prevFilter => ({ ...prevFilter, ...filterBy }))
-    }
+//     async function onDeleteEmail(emailId) {
+//         try {
+//             await emailService.remove(emailId)
+//             setEmails(prevEmails => prevEmails.filter(email => email.id !== emailId))
+//         } catch (error) {
+//             console.log('Having issues deleting email:', error)
+//         }
+//     }
 
 
-    async function onStarEmail(id, newIsStar) {
+//     function onSetFilterBy(filterBy) {
+//         console.log('EmailIndex onSetFilterBy')
+//         console.log('filterBy:', {filterBy})
+//         setFilterBy(prevFilter => ({ ...prevFilter, ...filterBy }))
+//     }
+
+
+//     async function onStarEmail(id, newIsStar) {
         
-        try {
+//         try {
 
-            /* 
-             is best practice? 
-             whay using prevEmail not work? 
-             is it inefficient to create emailToSave and then updatedEmails?
-             should i write specific function in email.service for that (instad using save)?
-             is emailToSave function in email.service is ok?
-             i think i dont need the condition there - it belong to robots somehow
-             becuse in my case the user click email so there must be an id
-            */
+//             /* 
+//              is best practice? 
+//              whay using prevEmail not work? 
+//              is it inefficient to create emailToSave and then updatedEmails?
+//              should i write specific function in email.service for that (instad using save)?
+//              is emailToSave function in email.service is ok?
+//              i think i dont need the condition there - it belong to robots somehow
+//              becuse in my case the user click email so there must be an id
+//             */
 
-            const emailToSave = emails.find(email => email.id === id)
-            emailToSave.isStarred = newIsStar;
-            
-            await emailService.save(emailToSave)  
-            
-            const updatedEmails = emails.map(email =>
-            email.id === id ? { ...email, isStarred: newIsStar } : email
-            );
+//             const emailToSave = emails.find(email => email.id === id)
+//             const updatedEmailToSave = {...emailToSave, isStarred: newIsStar}
+//             await emailService.save(updatedEmailToSave)  
+//             loadEmails()
+//             // const updatedEmails = emails.map(email =>
+//             // email.id === id ? { ...email, isStarred: newIsStar } : email
+//             // );
 
-            setEmails(updatedEmails);
-         } catch (error) {
-             console.log('Having issues saving email sfter star toogle:', error)
-        }
-    }
+//             // setEmails(updatedEmails);
+//          } catch (error) {
+//              console.log('Having issues saving email sfter star toggle:', error)
+//         }
+//     }
 
 
-    async function onToogleRead(id, newIsRead) {
+//     async function onToogleRead(id, newIsRead) {
         
-        try {
+//         try {
 
-            const emailToSave = emails.find(email => email.id === id)
-            emailToSave.isRead = newIsRead;
+//             const emailToSave = emails.find(email => email.id === id)
+//             emailToSave.isRead = newIsRead;
             
-            await emailService.save(emailToSave)  
+//             await emailService.save(emailToSave)  
             
-            const updatedEmails = emails.map(email =>
-            email.id === id ? { ...email, isRead: newIsRead } : email
-            );
+//             const updatedEmails = emails.map(email =>
+//             email.id === id ? { ...email, isRead: newIsRead } : email
+//             );
 
-            setEmails(updatedEmails);
-         } catch (error) {
-             console.log('Having issues saving email sfter star toogle:', error)
-        }
-    }
+//             setEmails(updatedEmails);
+//          } catch (error) {
+//              console.log('Having issues saving email sfter star toogle:', error)
+//         }
+//     }
 
 
   
@@ -101,12 +100,12 @@ export function EmailMain() {
 
 
 
-    if (!emails) return <div>Loading...</div>
-    return (
-        <section>
-            <EmailFilter onSetFilterBy={onSetFilterBy} filterBy={filterBy}/>
-            <EmailList emails={emails} onDeleteEmail={onDeleteEmail} onStarEmail={onStarEmail} onToogleRead={onToogleRead} />
-        </section>
+//     if (!emails) return <div>Loading...</div>
+//     return (
+//         <section>
+//             <EmailFilter onSetFilterBy={onSetFilterBy} filterBy={filterBy}/>
+//             <EmailList emails={emails} onDeleteEmail={onDeleteEmail} onStarEmail={onStarEmail} onToogleRead={onToogleRead} />
+//         </section>
        
-    )
-}
+//     )
+// }

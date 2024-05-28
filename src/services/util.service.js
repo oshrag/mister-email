@@ -4,7 +4,8 @@ export const utilService = {
     saveToStorage,
     loadFromStorage,
     getDateDayMonth,
-    getXWords
+    getXWords,
+    strToNullableBool
 }
 
 function makeId(length = 5) {
@@ -40,4 +41,16 @@ function getDateDayMonth(ts) {
 
 function getXWords(str, x) {
    return (str.split(" ").slice([0], [x-1])).join(" ")
+}
+
+
+const mapObjStrNullableBool = {
+  true : true,
+  false : false,
+  all : null
+}
+
+function strToNullableBool(str)
+{
+   return mapObjStrNullableBool[str]
 }

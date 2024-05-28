@@ -18,20 +18,20 @@ async function query(filterBy) {
     try {
         let emails = await storageService.query(STORAGE_KEY)
         if (filterBy) {
-            let { status = 'inbox', text = '',  isRead = false } = filterBy
-                  
-            if (isRead == null)
-                {
-                    emails = emails.filter(email =>
-                        email.subject.concat(' ', email.body).toLowerCase().includes(text.toLowerCase()))
-                }
-            else {
-                emails = emails.filter(email =>
-                    email.subject.concat(' ', email.body).toLowerCase().includes(text.toLowerCase()) &&
-                    email.isRead == isRead     
-                )
-            }
-
+            // let { status = 'inbox', text = '',  isRead = false } = filterBy      
+            // if (isRead === null)
+            // {
+            //         emails = emails.filter(email =>
+            //             email.subject.concat(' ', email.body).toLowerCase().includes(text.toLowerCase()))
+            // }
+            // else {
+            //     emails = emails.filter(email =>
+            //         email.subject.concat(' ', email.body).toLowerCase().includes(text.toLowerCase()) &&
+            //         email.isRead == isRead     
+            //     )
+            // }
+            emails = emails.filter(email => isMatchFilter(email,filterBy))
+           
            
         }
         return emails
@@ -50,12 +50,11 @@ function remove(id) {
 }
 
 function save(emailToSave) {
-    // if (emailToSave.id) {
+     if (emailToSave.id) {  
         return storageService.put(STORAGE_KEY, emailToSave)
-    // } else {
-    //     emailToSave.isStarred = false
-    //     return storageService.post(STORAGE_KEY, emailToSave)
-    // }
+     } else { // create - for later use...
+         return storageService.post(STORAGE_KEY, emailToSave)
+     }
 }
 
 
@@ -97,3 +96,11 @@ function _createEmails() {
 
 
 
+function isMatchFilter(email, filterBy) {
+    let { status = 'inbox', text = '',  isRead = false } = filterBy
+                  
+    if ((isRead !== null) && ( email.isRead != isRead) )  return false  
+    
+    return email.subject.concat(' ', email.body).toLowerCase().includes(text.toLowerCase()) 
+
+}

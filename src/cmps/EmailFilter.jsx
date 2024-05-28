@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react"
+import { utilService } from '../services/util.service.js'
 
 
 export function EmailFilter({ filterBy, onSetFilterBy }) {
@@ -11,35 +12,21 @@ export function EmailFilter({ filterBy, onSetFilterBy }) {
         setFilterByToEdit(filterByToEdit)
     }, [filterByToEdit])
 
-    // function handleChange({ target }) {
-    //     let { value, name: field, type } = target
-    //     value = type === 'boolean' ? +value : value
-    //     setFilterByToEdit(prevFilter => ({ ...prevFilter, [field]: value }))
+    function handleChange({ target }) {
+        let { value, name: field, type } = target
+        value = type !== 'text' ? utilService.strToNullableBool(value) : value
+        setFilterByToEdit(prevFilterByToEdit => ({ ...prevFilterByToEdit, [field]: value }))
+    }
+
+    // function handleTextChange({ target }) {
+    //     const value = target.value
+    //     setFilterByToEdit(prevFilterByToEdit => ({ ...prevFilterByToEdit, text: value}))
     // }
 
-    function handleTextChange({ target }) {
-        const value = target.value
-        setFilterByToEdit(prevFilterByToEdit => ({ ...prevFilterByToEdit, text: value}))
-    }
-
-    function handleSelectChange({ target }) {
-        const value = target.value
-        // console.log("handleSelectChange : ", value)
-        let value1
-        switch (value) {
-            case 'true':
-                value1 = true;
-              break;
-            case 'false':
-                value1 = false;
-                break;
-            default:
-                value1 = null;
-          }
-
-
-        setFilterByToEdit(prevFilterByToEdit => ({ ...prevFilterByToEdit, isRead: value1}))
-    }
+    // function handleSelectChange({ target }) {
+    //     const value = target.value
+    //     setFilterByToEdit(prevFilterByToEdit => ({ ...prevFilterByToEdit, isRead: utilService.strToNullableBool(value)}))
+    // }
 
     function onSubmitFilter(ev) {
         ev.preventDefault()
@@ -51,12 +38,12 @@ export function EmailFilter({ filterBy, onSetFilterBy }) {
         <form ref={formRef} onSubmit={onSubmitFilter} className="email-filter">
             <section>
                 <label htmlFor="text">search</label>
-                <input onChange={handleTextChange} name="text" id="text" type="text" value={text} />
+                <input onChange={handleChange} name="text" id="text" type="text" value={text} />
             </section>
             <section>
                 <label htmlFor="isReads" >Select by read/unread:</label>
                 
-                <select name="isRead" id="isRead" defaultValue={` ${isRead ? 'all' : isRead }` } onChange={handleSelectChange}>
+                <select name="isRead" id="isRead" defaultValue={isRead === null ? 'all' : isRead} onChange={handleChange}>
                 <option value="true">Read</option>
                 <option value="false">Unread</option>
                 <option value="all">all</option>
