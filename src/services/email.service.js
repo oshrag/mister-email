@@ -18,14 +18,21 @@ async function query(filterBy) {
     try {
         let emails = await storageService.query(STORAGE_KEY)
         if (filterBy) {
-            let { status = 'inbox', text = '',  isRead= false } = filterBy
-            // minBatteryStatus = minBatteryStatus || 0
-            emails = emails.filter(email =>
-                email.body.toLowerCase().includes(text.toLowerCase()) 
-                // email.isRead == isRead
-                // robot.model.includes(model.toLowerCase()) &&
-                // robot.batteryStatus > minBatteryStatus
-            )
+            let { status = 'inbox', text = '',  isRead = false } = filterBy
+                  
+            if (isRead == null)
+                {
+                    emails = emails.filter(email =>
+                        email.subject.concat(' ', email.body).toLowerCase().includes(text.toLowerCase()))
+                }
+            else {
+                emails = emails.filter(email =>
+                    email.subject.concat(' ', email.body).toLowerCase().includes(text.toLowerCase()) &&
+                    email.isRead == isRead     
+                )
+            }
+
+           
         }
         return emails
     } catch (error) {
@@ -68,7 +75,7 @@ function getDefaultFilter() {
     return {
         status: '', //'inbox/sent/star/trash'
         text: '',
-        isRead: true //true/false/null
+        isRead: false //true/false/null
     }
 }
 
@@ -77,8 +84,8 @@ function _createEmails() {
     let emails = utilService.loadFromStorage(STORAGE_KEY)
     if (!emails || !emails.length) {
         emails = [
-            { id: 'e101', subject: 'Miss you!', body: 'Would love to catch up sometimes', isRead: true, isStarred: false, sentAt : 1551133930594, removedAt : null,  from: 'momo@momo.com', to: 'user@appsus.com' },
-            { id: 'e102', subject: 'Love you!', body: 'whats up peace love', isRead: false, isStarred: false, sentAt : 1551133938594, removedAt : null,  from: 'eli@momo.com', to: 'info@appsus.com' },
+            { id: 'e101', subject: 'Miss you!', body: 'Lorem Would love to catch up sometimes', isRead: true, isStarred: false, sentAt : 1551133930594, removedAt : null,  from: 'momo@momo.com', to: 'user@appsus.com' },
+            { id: 'e102', subject: 'Love you!', body: 'whats up peace', isRead: false, isStarred: false, sentAt : 1551133938594, removedAt : null,  from: 'eli@momo.com', to: 'info@appsus.com' },
             { id: 'e103', subject: 'Love you More!', body: 'er since the peace 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and', isRead: false, isStarred: false, sentAt : 1551133938594, removedAt : null,  from: 'eli@momo.com', to: 'info@appsus.com' },
             { id: 'e104', subject: 'Lorem ipsum!', body: 'ter took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and', isRead: false, isStarred: true, sentAt : 1551133938594, removedAt : null,  from: 'eli@momo.com', to: 'info@appsus.com' }
 

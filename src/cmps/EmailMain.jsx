@@ -104,8 +104,8 @@ export function EmailMain() {
     if (!emails) return <div>Loading...</div>
     return (
         <section>
-            <EmailList emails={emails} onDeleteEmail={onDeleteEmail} onStarEmail={onStarEmail} onToogleRead={onToogleRead} />
             <EmailFilter onSetFilterBy={onSetFilterBy} filterBy={filterBy}/>
+            <EmailList emails={emails} onDeleteEmail={onDeleteEmail} onStarEmail={onStarEmail} onToogleRead={onToogleRead} />
         </section>
        
     )

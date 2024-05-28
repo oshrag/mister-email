@@ -19,9 +19,27 @@ export function EmailFilter({ filterBy, onSetFilterBy }) {
 
     function handleTextChange({ target }) {
         const value = target.value
-        setFilterByToEdit(prevFilterByToEdit => ({ ...prevFilterByToEdit, text: value }))
+        setFilterByToEdit(prevFilterByToEdit => ({ ...prevFilterByToEdit, text: value}))
     }
 
+    function handleSelectChange({ target }) {
+        const value = target.value
+        // console.log("handleSelectChange : ", value)
+        let value1
+        switch (value) {
+            case 'true':
+                value1 = true;
+              break;
+            case 'false':
+                value1 = false;
+                break;
+            default:
+                value1 = null;
+          }
+
+
+        setFilterByToEdit(prevFilterByToEdit => ({ ...prevFilterByToEdit, isRead: value1}))
+    }
 
     function onSubmitFilter(ev) {
         ev.preventDefault()
@@ -30,10 +48,20 @@ export function EmailFilter({ filterBy, onSetFilterBy }) {
 
     const { status, text, isRead } = filterByToEdit
     return (
-        <form ref={formRef} onSubmit={onSubmitFilter} className="robot-filter">
+        <form ref={formRef} onSubmit={onSubmitFilter} className="email-filter">
             <section>
                 <label htmlFor="text">search</label>
                 <input onChange={handleTextChange} name="text" id="text" type="text" value={text} />
+            </section>
+            <section>
+                <label htmlFor="isReads" >Select by read/unread:</label>
+                
+                <select name="isRead" id="isRead" defaultValue={` ${isRead ? 'all' : isRead }` } onChange={handleSelectChange}>
+                <option value="true">Read</option>
+                <option value="false">Unread</option>
+                <option value="all">all</option>
+                </select>
+
             </section>
             {/* <section>
                 <label htmlFor="readStatus">readStatus</label>
