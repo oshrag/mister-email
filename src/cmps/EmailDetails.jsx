@@ -1,0 +1,32 @@
+import { useEffect, useState } from "react"
+import { Link, useParams } from 'react-router-dom'
+import { emailService } from "../services/email.service"
+
+export function EmailDetails() {
+
+    const [email, setEmail] = useState(null)
+    const params = useParams()
+
+    useEffect(() => {
+        loadEmail()
+    }, [params.emailId])
+
+    async function loadEmail() {
+        const email = await emailService.getById(params.emailId)
+        await emailService.save({...email , isRead  : true})  
+        setEmail(email)
+    }
+
+    
+    if (!email) return <div>Loading...</div>
+    return (
+        <section className="email-details">
+            {/* <img src={`https://robohash.org/${robot.type}`} /> */}
+            <h3>subject : {email.subject}</h3>
+            <h3>from : {email.from}</h3>
+            <h3>to : {email.to}</h3>
+            {/* <Link to="/robot">Back</Link>
+            <Link to="/robot/r4">Next Robot</Link> */}
+        </section>
+    )
+}

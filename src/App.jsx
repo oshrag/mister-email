@@ -1,32 +1,49 @@
+
+import { HashRouter as Router, Routes, Route } from 'react-router-dom'
+
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import './assets/css/index.css'
 import { Home } from './pages/Home';
+import { AppHeader } from './cmps/AppHeader'
+import { AboutUs } from './pages/AboutUs'
+import { EmailIndex } from './pages/EmailIndex'
+import { EmailDetails } from './cmps/EmailDetails'
+
+
+
+
 
 
 function App() {
   // const [count, setCount] = useState(0)
 
   return (
+    <Router>
+      <section className='main-app'>
+      
+          <AppHeader />
+    
 
-    <section className='main-app'>
-    <header className="app-header">
-        <section className="container">
-            <h1>Log111</h1>
-        </section>
-    </header>
+      <main className='container'>
+        <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<AboutUs />} /> 
+            <Route path="/email" element={<EmailIndex />} />   
+            <Route path="/email/:emailId" element={<EmailDetails />} />                 
+        </Routes>
+      </main>
 
-    <main className='container'>
-        <Home />
-    </main>
-
-    <footer>
-        <section className="container">
-            robotRights 2023 &copy;
-        </section>
-    </footer>
-    </section>
+      <footer>
+          <section className="container">
+              robotRights 2023 &copy;
+          </section>
+      </footer>
+      </section>
+    </Router>
+    
 
     // <>
     //   <div>

@@ -1,0 +1,9 @@
+.app-header { 
+    width:100%;
+    background:rgb(101, 99, 99);
+    padding:10px;
+}
+
+.app-header nav a {
+    margin:10px;
+}
