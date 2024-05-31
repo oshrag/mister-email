@@ -1,0 +1,12 @@
+.email-index {
+    display:grid;
+    grid-template-rows: 1fr; 
+    grid-template-columns: minmax(auto, 200px) 1fr; 
+    grid-template-areas: "fl fl"
+                         "as el";
+}
+
+
+.email-index aside {
+    grid-area:as;
+}

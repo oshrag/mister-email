@@ -77,10 +77,12 @@ export function EmailIndex() {
 
     if (!emails) return <div>Loading...</div>
     return (
-        <section>
+        <section className="email-index">
             <EmailFilter onSetFilterBy={onSetFilterBy} filterBy={filterBy}/>
-            <button onClick={()=> { setToCompose(true) }}>compose</button>
-            { toCompose ? <EmailCompose onClose={() => { setToCompose(false)}}  onSend={onSend}/> : null }
+            <aside> 
+                <button onClick={()=> { setToCompose(true) }}>compose</button>
+                { toCompose ? <EmailCompose onClose={() => { setToCompose(false)}}  onSend={onSend}/> : null }
+            </aside>
             <EmailList emails={emails} onDeleteEmail={onDeleteEmail} onEmailStatusChange={onEmailStatusChange} />
         </section>
        

@@ -9,3 +9,13 @@
   @media screen and (min-width: 1024px) {
     #root { width: 100%; }
   }
+
+
+  .main-app {
+    display:grid;
+    grid-template-rows: auto 1fr auto;
+  }
+
+
+
+

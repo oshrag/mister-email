@@ -1,1 +1,4 @@
-.email-list {list-style:none;}
+.email-list {
+    list-style:none;
+    grid-area: el;
+}

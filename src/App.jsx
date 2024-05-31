@@ -39,7 +39,7 @@ function App() {
 
       <footer>
           <section className="container">
-              robotRights 2023 &copy;
+              misterEmailRights 2024 &copy;
           </section>
       </footer>
       </section>
