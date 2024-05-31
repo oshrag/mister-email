@@ -1,10 +1,13 @@
 
-import { EmailPreview } from "./EmailPreview";
+import { EmailPreview } from "./EmailPreview"
 
 
 export function EmailList({emails, onEmailStatusChange, onDeleteEmail}) {
     
+
+
     return (
+           <div>
             <ul className="email-list">
                 {emails.map(email =>
                     <li key={email.id}>
@@ -18,6 +21,8 @@ export function EmailList({emails, onEmailStatusChange, onDeleteEmail}) {
                     </li>
                 )}
             </ul>
+                        
+            </div>    
        
     )
 }

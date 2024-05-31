@@ -1,0 +1,12 @@
+.email-details {
+    display:grid;
+    grid-template-areas: "s s"
+                         "t d"
+                         "c c";
+}
+
+
+h2 {grid-area: s}
+.from-to {grid-area: t}
+.date {grid-area: d}
+.content {grid-area: c}

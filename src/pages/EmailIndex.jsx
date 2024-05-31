@@ -3,8 +3,10 @@ import { emailService } from "../services/email.service"
 
 import { useEffect, useState } from "react"
 
+
 import { EmailList } from "../cmps/EmailList"
 import { EmailFilter } from "../cmps/EmailFilter"
+import { EmailCompose } from "../cmps/EmailCompose"
 
 
 
@@ -13,6 +15,7 @@ export function EmailIndex() {
 
     const [emails, setEmails] = useState(null)
     const [filterBy, setFilterBy] = useState(emailService.getDefaultFilter())
+    const [toCompose, setToCompose] = useState(false)
 
 
     useEffect(() => {
@@ -47,36 +50,6 @@ export function EmailIndex() {
     }
 
 
-    // async function onStarEmail(id, newIsStar) {
-        
-    //     try {
-
-    //         const emailToSave = emails.find(email => email.id === id)
-    //         const updatedEmailToSave = {...emailToSave, isStarred: newIsStar}
-    //         await emailService.save(updatedEmailToSave)  
-    //         loadEmails()
-            
-    //      } catch (error) {
-    //          console.log('Having issues saving email sfter star toggle:', error)
-    //     }
-    // }
-
-
-    // async function onToogleRead(id, newIsRead) {
-        
-    //     try {
-    //         const emailToSave = emails.find(email => email.id === id)
-            
-    //         const updatedEmailToSave = {...emailToSave, isRead: newIsRead}
-    //         await emailService.save(updatedEmailToSave)  
-    //         loadEmails()
-
-           
-    //      } catch (error) {
-    //          console.log('Having issues saving email sfter star toogle:', error)
-    //     }
-    // }
-
 
   async function onEmailStatusChange(id, propertyName, value) {
     try {
@@ -93,12 +66,21 @@ export function EmailIndex() {
   }
 
 
+  async function onSend(target) {
+    let { to, subject, body } = target
+    const newEmailToSave = { subject: subject, body: body, isRead: false, isStarred: false, sentAt : Date.now(), removedAt : null,  from: 'momo@momo.com', to: to }
+    await emailService.save(newEmailToSave)  
+    loadEmails()
+    
+  }
 
 
     if (!emails) return <div>Loading...</div>
     return (
         <section>
             <EmailFilter onSetFilterBy={onSetFilterBy} filterBy={filterBy}/>
+            <button onClick={()=> { setToCompose(true) }}>compose</button>
+            { toCompose ? <EmailCompose onClose={() => { setToCompose(false)}}  onSend={onSend}/> : null }
             <EmailList emails={emails} onDeleteEmail={onDeleteEmail} onEmailStatusChange={onEmailStatusChange} />
         </section>
        

@@ -21,10 +21,17 @@ export function EmailDetails() {
     if (!email) return <div>Loading...</div>
     return (
         <section className="email-details">
-            {/* <img src={`https://robohash.org/${robot.type}`} /> */}
-            <h3>subject : {email.subject}</h3>
-            <h3>from : {email.from}</h3>
-            <h3>to : {email.to}</h3>
+            <h2>subject : {email.subject}</h2>
+            <section className="from-to">
+                <span>from : {email.from}</span>
+                <span>to : {email.to}</span>
+            </section>
+            <section className="date">
+                 {email.sentAt}
+            </section>
+            <section className="content">
+                <p>{email.body}</p>
+            </section>
             {/* <Link to="/robot">Back</Link>
             <Link to="/robot/r4">Next Robot</Link> */}
         </section>

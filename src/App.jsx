@@ -32,7 +32,8 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<AboutUs />} /> 
             <Route path="/email" element={<EmailIndex />} />   
-            <Route path="/email/:emailId" element={<EmailDetails />} />                 
+            <Route path="/email/:emailId" element={<EmailDetails />} />  
+           
         </Routes>
       </main>
 
