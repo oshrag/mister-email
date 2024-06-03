@@ -1,12 +1,11 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import { utilService } from '../services/util.service.js'
 
 
 export function EmailFilter({ filterBy, onSetFilterBy }) {
 
     const [filterByToEdit, setFilterByToEdit] = useState(filterBy)
-    const formRef = useRef()
-
+    
 
     useEffect(() => {
         setFilterByToEdit(filterByToEdit)
@@ -35,7 +34,7 @@ export function EmailFilter({ filterBy, onSetFilterBy }) {
 
     const { status, text, isRead } = filterByToEdit
     return (
-        <form ref={formRef} onSubmit={onSubmitFilter} className="email-filter">
+        <form onSubmit={onSubmitFilter} className="email-filter">
             <section>
                 <label htmlFor="text">search</label>
                 <input onChange={handleChange} name="text" id="text" type="text" value={text} />

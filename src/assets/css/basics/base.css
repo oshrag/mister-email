@@ -1,9 +1,20 @@
+:root {
+  --btn-background-color: #0b57d0;
+  --btn-text-color: #fff;
+  --light-gray: #eee;
+  --email-border-light-gray: #ddd;
+  --background-white:#fff;
+}
+
 #root {
-    max-width: 1280px;
+    max-width: 100%;
     margin: 0 auto;
-    padding: 2rem;
+    padding: 0;
     text-align: center;
+    height:100vh;
+    overflow-y:hidden;
   }
+
 
 
   @media screen and (min-width: 1024px) {

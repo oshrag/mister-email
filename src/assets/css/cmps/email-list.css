@@ -1,4 +1,13 @@
 .email-list {
+    background:var(--background-white);
+    padding:20px 0 0 0;
+    border-radius:25px;
     list-style:none;
     grid-area: el;
+    overflow-y:scroll;
+}
+
+.email-list ul {
+    list-style: none;
+    padding:0;
 }

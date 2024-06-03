@@ -13,9 +13,13 @@ export function EmailPreview({email, onDelete, onStar, onToogleRead}) {
                     <button className= {`star ${email.isStarred ? 'stared' : '' }` } onClick={(event) => { onStar(); event.preventDefault() } }>s</button>
                 </p>
                 <p> {email.from} </p>
-                <p> {email.subject} <span className="exerpt">{utilService. getXWords( email.body, 10)}</span>  </p>
+                <div className="subject-exerpt"> 
+                    <p> {email.subject}  </p>
+                    <p className="exerpt"> {email.body}</p>
+                    {/* <p className="exerpt" > {utilService.getXWords( email.body, 20)}  </p> */}
+                </div>
                 <p className="dateAndButtons"> 
-                    <span> {utilService.getDateDayMonth(email.sentAt)} </span>
+                    <span className="date"> {utilService.getDateDayMonth(email.sentAt)} </span>
                     <button className="delete" onClick={(event) => { onDelete(); event.preventDefault() } }>delete</button>
                     <button className="archive" >archive</button>
                     <button className="toogleRead"  onClick={(event) => { onToogleRead(); event.preventDefault() } } >toogle read </button>

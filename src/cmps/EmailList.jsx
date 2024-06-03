@@ -1,5 +1,6 @@
 
 import { EmailPreview } from "./EmailPreview"
+import { Outlet } from 'react-router-dom'
 
 
 export function EmailList({emails, onEmailStatusChange, onDeleteEmail}) {
@@ -7,8 +8,8 @@ export function EmailList({emails, onEmailStatusChange, onDeleteEmail}) {
 
 
     return (
-           <div>
-            <ul className="email-list">
+           <div className="email-list"> 
+            <ul>
                 {emails.map(email =>
                     <li key={email.id}>
                         <EmailPreview email={email} 
@@ -21,7 +22,7 @@ export function EmailList({emails, onEmailStatusChange, onDeleteEmail}) {
                     </li>
                 )}
             </ul>
-                        
+                  <Outlet/>      
             </div>    
        
     )

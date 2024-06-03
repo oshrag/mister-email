@@ -1,21 +1,69 @@
 .email-compose {
     width:500px;
     position:absolute;
-    background:rgb(119, 100, 100);
+    background:#fff;
     bottom:0;
-    right:0;
-    padding:20px;
+    right:20px;
     text-align:left;
+    border-radius:25px 25px 0 0;
+    -webkit-box-shadow: -1px -6px 33px -14px rgba(97,97,97,1);
+    -moz-box-shadow: -1px -6px 33px -14px rgba(97,97,97,1);
+    box-shadow: -1px -6px 33px -14px rgba(97,97,97,1);
+    z-index:9;
 }
-
+.email-compose .compose-header {
+    background:#ddd;
+    color:black;
+    padding:5px 20px;
+    border-radius:25px 25px 0 0;
+    display:grid;
+    grid-template-columns: 1fr auto;
+    line-height:2em;
+    font-size:1em;
+}
 
 .email-compose form{
-    display:grid;
-    grid-template-columns: 1fr 2fr;
-    gap:10px;
-
+    display:flex;
+    flex-direction: column;
+    padding:20px;
 }
 
-.email-compose button {
-    grid-area: 4 / 1 / span 1 / span 2;
+.email-compose input{
+    line-height:2em;
+    border:none;
+    border-bottom:1px solid #ddd;
+}
+
+.email-compose input:focus{
+    border:none;
+    border-bottom:1px solid #ddd;
+    outline: none;
+}
+
+.email-compose textarea{
+    border:none;
+    border-bottom:1px solid #ddd;
+    width:100%;
+    min-height: 150px;
+}
+.email-compose textarea:focus, .email-compose textarea:active{
+    border:none;
+    border-bottom:1px solid #ddd;
+    outline:none;
+}
+
+
+.email-compose button.send {
+    margin-top:50px;
+    grid-area: 4 / 1 / span 1 / span 1;
+    background-color: var(--btn-background-color);
+    color: var(--btn-text-color);
+    line-height: 2em;
+    border-radius:50px;
+    
+}
+.email-compose button:hover {
+    -webkit-box-shadow: 0px 0px 2px 0px rgba(84,30,201,1);
+-moz-box-shadow: 0px 0px 2px 0px rgba(84,30,201,1);
+box-shadow: 0px 0px 2px 0px rgba(84,30,201,1);
 }

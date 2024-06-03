@@ -1,12 +1,31 @@
 .email-index {
+    background: var(--light-gray); 
     display:grid;
-    grid-template-rows: 1fr; 
-    grid-template-columns: minmax(auto, 200px) 1fr; 
+    grid-template-rows: auto 1fr; 
+    grid-template-columns: auto 1fr; 
     grid-template-areas: "fl fl"
                          "as el";
+    height:100vh;
 }
 
 
 .email-index aside {
     grid-area:as;
+    padding:10px;
+}
+
+.email-index .btn-compose {
+    background:url("../../images/pencil.png");
+    width:50px;
+    height:50px; 
+    background-position: center left;
+    background-repeat: no-repeat;
+    background-size: 30px;
+    text-indent: 50px;
+    overflow: hidden;
+    transition:all 500ms;
+}
+
+.email-index .btn-compose:hover {
+    width:200px;
 }

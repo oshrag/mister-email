@@ -2,11 +2,13 @@
 import { emailService } from "../services/email.service"
 
 import { useEffect, useState } from "react"
+import { Link } from 'react-router-dom'
 
 
 import { EmailList } from "../cmps/EmailList"
 import { EmailFilter } from "../cmps/EmailFilter"
 import { EmailCompose } from "../cmps/EmailCompose"
+
 
 
 
@@ -70,6 +72,7 @@ export function EmailIndex() {
     let { to, subject, body } = target
     const newEmailToSave = { subject: subject, body: body, isRead: false, isStarred: false, sentAt : Date.now(), removedAt : null,  from: 'momo@momo.com', to: to }
     await emailService.save(newEmailToSave)  
+    setToCompose(false)
     loadEmails()
     
   }
@@ -80,7 +83,8 @@ export function EmailIndex() {
         <section className="email-index">
             <EmailFilter onSetFilterBy={onSetFilterBy} filterBy={filterBy}/>
             <aside> 
-                <button onClick={()=> { setToCompose(true) }}>compose</button>
+                {/* <Link to="/email/compose">Compose</Link> */}
+                <button className="btn-compose" onClick={()=> { setToCompose(true) }}>compose</button>
                 { toCompose ? <EmailCompose onClose={() => { setToCompose(false)}}  onSend={onSend}/> : null }
             </aside>
             <EmailList emails={emails} onDeleteEmail={onDeleteEmail} onEmailStatusChange={onEmailStatusChange} />
