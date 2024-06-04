@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom'
 import { EmailList } from "../cmps/EmailList"
 import { EmailFilter } from "../cmps/EmailFilter"
 import { EmailCompose } from "../cmps/EmailCompose"
+import { EmailSort } from "../cmps/EmailSort"
 
 
 
@@ -20,15 +21,17 @@ export function EmailIndex() {
     const [emails, setEmails] = useState(null)
     const [filterBy, setFilterBy] = useState(emailService.getDefaultFilter())
     const [toCompose, setToCompose] = useState(false)
+    const [sortOrder, setSortOrder] = useState(emailService.getDefaultSort())
 
 
     useEffect(() => {
         loadEmails()
-    }, [filterBy])
+    }, [filterBy, sortOrder])
 
     async function loadEmails() {
         try {
-            const emails = await emailService.query(filterBy)
+            console.log('EmailIndex loadEmails sortOrder', sortOrder)
+            const emails = await emailService.query(filterBy, sortOrder)
             setEmails(emails)
         } catch (error) {
             console.log('Having issues with loading emails:', error)
@@ -53,6 +56,11 @@ export function EmailIndex() {
         setFilterBy(prevFilter => ({ ...prevFilter, ...filterBy }))
     }
 
+
+    function onSetOrder(sortOrder) {
+        console.log('Email Index onSetOrder sortOrder:', sortOrder)
+        setSortOrder(prevSortOrder => ({ ...prevSortOrder, ...sortOrder }))
+    }
 
 
   async function onEmailStatusChange(id, propertyName, value) {
@@ -88,6 +96,7 @@ export function EmailIndex() {
                 {/* <Link to="/email/compose">Compose</Link> */}
                 <button className="btn-compose" onClick={()=> { setToCompose(true) }}>compose</button>
                 { toCompose ? <EmailCompose onClose={() => { setToCompose(false)}}  onSend={onSend}/> : null }
+                <EmailSort sortOrder={sortOrder} onSetOrder={onSetOrder}/>
             </aside>
             <EmailList emails={emails} onDeleteEmail={onDeleteEmail} onEmailStatusChange={onEmailStatusChange} />
         </section>

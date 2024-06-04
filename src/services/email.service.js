@@ -7,14 +7,15 @@ export const emailService = {
     remove,
     getById,
     // createRobot,
-    getDefaultFilter
+    getDefaultFilter,
+    getDefaultSort
 }
 
 const STORAGE_KEY = 'mister-email'
 
 _createEmails()
 
-async function query(filterBy) {
+async function query(filterBy, sortOrder) {
     try {
         let emails = await storageService.query(STORAGE_KEY)
         if (filterBy) {
@@ -31,7 +32,15 @@ async function query(filterBy) {
             //     )
             // }
             emails = emails.filter(email => isMatchFilter(email,filterBy))
-           
+        }
+
+        if (sortOrder) {
+            console.log('email.service query sort')
+            if (sortOrder.sortOrder == "asc") {
+                emails.sort((a, b) => a.sentAt - b.sentAt)
+            } else {
+                emails.sort((a, b) => b.sentAt - a.sentAt)
+            }
            
         }
         return emails
@@ -76,6 +85,13 @@ function getDefaultFilter() {
         status: '', //'inbox/sent/star/trash'
         text: '',
         isRead: null //true/false/null
+    }
+}
+
+
+function getDefaultSort() {
+    return {
+        sortOrder: 'desc' //'asc / desc'
     }
 }
 
