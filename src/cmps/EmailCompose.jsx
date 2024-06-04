@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 export function EmailCompose({onClose, onSend}) {
 
     function getEmailData(event) {
+        console.log('getEmailDate event:', event)
         event.preventDefault();
         const { to, subject, body } = event.target.elements;
         return {
@@ -29,9 +30,9 @@ export function EmailCompose({onClose, onSend}) {
             {/* <label>To</label> */}
             <input name="to"type="text" placeholder='To'></input>
             {/* <label>Subject</label> */}
-            <input name="subject"type="text" placeholder='Subject'></input>
+            <input name="subject" type="text" placeholder='Subject'></input>
             {/* <label>content</label> */}
-            <textarea name="body" rows="10" cols="30"></textarea>
+            <textarea name="body"></textarea>
             {/* <button onClick={onComposeEmail}>send</button> */}
             <button className="send">send</button>
         </form> 

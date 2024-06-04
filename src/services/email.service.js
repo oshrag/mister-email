@@ -53,6 +53,7 @@ function save(emailToSave) {
      if (emailToSave.id) {  
         return storageService.put(STORAGE_KEY, emailToSave)
      } else { // create - for later use...
+        // console.log("save - create - email to save", emailToSave)
          return storageService.post(STORAGE_KEY, emailToSave)
      }
 }
@@ -74,7 +75,7 @@ function getDefaultFilter() {
     return {
         status: '', //'inbox/sent/star/trash'
         text: '',
-        isRead: false //true/false/null
+        isRead: null //true/false/null
     }
 }
 

@@ -1,5 +1,7 @@
 
 import { emailService } from "../services/email.service"
+import { utilService } from '../services/util.service.js'
+
 
 import { useEffect, useState } from "react"
 import { Link } from 'react-router-dom'
@@ -70,11 +72,11 @@ export function EmailIndex() {
 
   async function onSend(target) {
     let { to, subject, body } = target
-    const newEmailToSave = { subject: subject, body: body, isRead: false, isStarred: false, sentAt : Date.now(), removedAt : null,  from: 'momo@momo.com', to: to }
-    await emailService.save(newEmailToSave)  
+    const newEmailToSave = { subject: subject, body: body, isRead: false, isStarred: false, sentAt : Date.now(), removedAt : null,  from: 'momo@momo.com', to: to } 
+    let entitywithID = await emailService.save(newEmailToSave)   
+    setEmails(prevEmails => [ ...prevEmails, entitywithID ])
     setToCompose(false)
-    loadEmails()
-    
+    // loadEmails()
   }
 
 

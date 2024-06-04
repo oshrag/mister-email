@@ -8,7 +8,7 @@ export function EmailFilter({ filterBy, onSetFilterBy }) {
     
 
     useEffect(() => {
-        setFilterByToEdit(filterByToEdit)
+        // onSetFilterBy(filterByToEdit) //update EmailIndex without Submit Btn
     }, [filterByToEdit])
 
     function handleChange({ target }) {
