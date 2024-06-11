@@ -1,8 +1,10 @@
 import { Link, useParams } from "react-router-dom";
 
 import { utilService } from '../services/util.service.js'
+import { emailService } from '../services/email.service.js'
 
-export function EmailPreview({email, onDelete, onStar, onToogleRead, folder}) {
+
+export function EmailPreview({email, onDelete, onRemove, onStar, onToogleRead, folder}) {
 
 
     const params = useParams()
@@ -16,7 +18,7 @@ export function EmailPreview({email, onDelete, onStar, onToogleRead, folder}) {
                     <input type="checkbox"/>
                     <button className= {`star ${email.isStarred ? 'stared' : '' }` } onClick={(event) => { onStar(); event.preventDefault() } }>s</button>
                 </p>
-                <p> {email.from} </p>
+                <p> {emailService.getLogedOnUser().email == email.from ? `To: ${email.to}` :  `${email.from}` } </p>
                 <div className="subject-exerpt"> 
                     <p> {email.subject}  </p>
                     <p className="exerpt"> {email.body}</p>
@@ -27,7 +29,12 @@ export function EmailPreview({email, onDelete, onStar, onToogleRead, folder}) {
                     
                     { email.status === 'draft' ? <Link to={editPath}> <button className="edit"> edit</button></Link> : null}
 
-                    <button className="delete" onClick={(event) => { onDelete(); event.preventDefault() } }>delete</button> 
+                    { 
+                       (email.removedAt) ? 
+                       <button className="delete" onClick={(event) => { onDelete(); event.preventDefault() } }>delete</button> :
+                       <button className="delete" onClick={(event) => { onRemove(); event.preventDefault() } }>delete</button> 
+                    }
+  
                     <button className="archive" >archive</button>
                     <button className="toogleRead"  onClick={(event) => { onToogleRead(); event.preventDefault() } } >toogle read </button>
                 </p> 

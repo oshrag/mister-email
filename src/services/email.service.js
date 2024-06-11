@@ -8,10 +8,11 @@ export const emailService = {
     getById,
     getDefaultFilter,
     getDefaultSort2,
-    // getDefaultLogdonUser
+    getLogedOnUser,
     getFilterFromSearchParams,
     getFolders,
-    createEmail
+    createEmail,
+    getUnCountRead
 }
 
 const STORAGE_KEY = 'mister-email'
@@ -111,11 +112,17 @@ function getDefaultSort2() {
 }
 
 
-
 const defaultLogedOnUser = { 
     name: 'oshra', 
     email: 'eli@momo.com'
 }
+
+
+function getLogedOnUser() {
+    return defaultLogedOnUser;
+}
+
+
 
 
 function createEmail() {
@@ -136,13 +143,13 @@ function _createEmails() {
     let emails = utilService.loadFromStorage(STORAGE_KEY)
     if (!emails || !emails.length) {
         emails = [
-            { id: 'e101', subject: 'Miss you!', body: 'Lorem Would love to catch up sometimes', isRead: true, isStarred: false, sentAt : 1551133930594, removedAt : null,  from: 'momo@momo.com', to: 'eli@momo.com' },
-            { id: 'e102', subject: 'Love you!', body: 'whats up peace', isRead: false, isStarred: false, sentAt : 1551133938594, removedAt : null,  from: 'eli@momo.com', to: 'momo@momo.com' },
-            { id: 'e103', subject: 'Love you More!', body: 'er since the peace 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and', isRead: false, isStarred: false, sentAt : 1551133938594, removedAt : null,  from: 'eli@momo.com', to: 'momo@momo.com' },
-            { id: 'e104', subject: 'Lorem ipsum!', body: 'ter took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and', isRead: false, isStarred: true, sentAt : 1551133938594, removedAt : null,  from: 'eli@momo.com', to: 'momo@momo.com' },
-            { id: 'e105', subject: 'Lorem ipsum re', body: 'ter took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and', isRead: false, isStarred: true, sentAt : 1551133938594, removedAt : null,  from: 'momo@momo.com', to: 'eli@momo.com' },
-            { id: 'e106', subject: 'Lorem ipsum et', body: 'ter took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and', isRead: false, isStarred: true, sentAt : 1551133938594, removedAt : null,  from: 'eli@momo.com', to: 'momo@momo.com' },
-            { id: 'e107', subject: '?', body: 'dvs ter took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and', isRead: false, isStarred: true,  sentAt : null,  removedAt : null,  from: 'eli@momo.com', to: 'momo@momo.com' }
+            { id: 'e101', subject: 'hi eli Miss you!', isRead: true, isStarred: false, sentAt : 1551133930594, removedAt : null,  from: 'momo@momo.com', to: 'eli@momo.com' , body: 'Lorem Would love to catch up sometimes'},
+            { id: 'e102', subject: 'hi momo Love you!', isRead: false, isStarred: false, sentAt : 1551133938594, removedAt : null,  from: 'eli@momo.com', to: 'momo@momo.com' , body: 'whats up peace' },
+            { id: 'e103', subject: 'hi momo Love you More!', isRead: false, isStarred: false, sentAt : 1551133938594, removedAt : null,  from: 'eli@momo.com', to: 'momo@momo.com', body: 'er since the peace 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and' },
+            { id: 'e104', subject: 'hi momo Lorem ipsum!', isRead: false, isStarred: true, sentAt : 1551133938594, removedAt : null,  from: 'eli@momo.com', to: 'momo@momo.com',  body: 'ter took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and' },
+            { id: 'e105', subject: 'hi eli Lorem ipsum re', isRead: false, isStarred: true, sentAt : 1551133938594, removedAt : null,  from: 'momo@momo.com', to: 'eli@momo.com', body: 'ter took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and' },
+            { id: 'e106', subject: 'hi momo Lorem ipsum et', isRead: false, isStarred: true, sentAt : 1551133938594, removedAt : null,  from: 'eli@momo.com', to: 'momo@momo.com', body: 'ter took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and' },
+            { id: 'e107', subject: 'hi momo?', isRead: false, isStarred: true,  sentAt : null,  removedAt : null,  from: 'eli@momo.com', to: 'momo@momo.com', body: 'dvs ter took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and' }
 
         ]
         utilService.saveToStorage(STORAGE_KEY, emails)
@@ -224,6 +231,13 @@ function getFilterFromSearchParams(searchParams) {
 }
 
 
+async function getUnCountRead(){
+    let emails = await storageService.query(STORAGE_KEY)   
+    emails = emails.filter(mail => !mail.isRead)
+    return emails.length
+}
+
+
 function getFolders(){
     return [
         {
@@ -243,8 +257,8 @@ function getFolders(){
             path: 'trash'
         },
         {
-            name: 'stared',
-            path: 'stared'
+            name: 'starred',
+            path: 'starred'
         }
     ]
         

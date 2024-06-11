@@ -5,7 +5,7 @@
 
 .email-preview .inner {
     display:grid;
-    grid-template-columns: 1fr 2fr 6fr 2fr;
+    grid-template-columns: 1fr minmax(300px, 2fr) 6fr 2fr;
     font-weight:bold;
     /* border-bottom:1px solid #eee; */
     text-align:left;

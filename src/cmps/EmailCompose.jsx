@@ -24,9 +24,16 @@ export function EmailCompose() {
         }
 
         timeoutRef.current = setTimeout(() => onAutoSaveDraft(email), 5000)
+
+
+        return (() => {
+            clearTimeout(timeoutRef.current)
+            timeoutRef.current = null })
+
+        
     }, [email])
 
-
+    
     
 
     async function loadEmail() {
@@ -40,7 +47,8 @@ export function EmailCompose() {
 
 
     async function onAutoSaveDraft(email) {
-        // console.log('mail:', mail)
+       
+        
         try {
             //onSaveDraft(email)
             if (!email.id) {
@@ -82,7 +90,6 @@ export function EmailCompose() {
 
     function onSubmitEmail(ev){
         ev.preventDefault();
-
         onSaveEmail({...email, sentAt : Date.now(), status : 'sent'})
     }
 
@@ -91,19 +98,18 @@ export function EmailCompose() {
 
       const closePath = `/email/${params.folder}` 
 
-      const {subject, body, from  } = email
+      const {subject, body, from, to  } = email
 
  return (
     <section className="email-compose">
         <section className ="compose-header">
-            <span>new email</span> <Link to={closePath}>X</Link>
-            <h1> {email.id ? 'edit' : 'new' } email</h1> 
+            <span>{email.id ? 'edit' : 'new' } email </span> <Link to={closePath}>X</Link>
         </section>
        
 
         <form  onSubmit={onSubmitEmail}>
             {/* <label>To</label> */}
-            <input name="to"type="text" placeholder='To' onChange={handleChange}></input>
+            <input name="to"type="text" placeholder='To' value={to} onChange={handleChange}></input>
             {/* <label>Subject</label> */}
             <input name="subject" type="text" placeholder='Subject' value={subject} onChange={handleChange}></input>
             {/* <label>content</label> */}
