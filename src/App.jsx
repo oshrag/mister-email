@@ -1,5 +1,5 @@
 
-import { HashRouter as Router, Routes, Route } from 'react-router-dom'
+import { HashRouter as Router, Routes, Route, useOutletContext} from 'react-router-dom'
 
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
@@ -33,10 +33,10 @@ function App() {
         <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<AboutUs />} /> 
-            <Route path="/email" element={<EmailIndex />}> 
-              <Route path="/email/compose" element={<EmailCompose />} /> 
+            <Route path="/email/:folder" element={<EmailIndex />}> 
+              <Route path="/email/:folder/edit/:emailId?" element={<EmailCompose />} /> 
             </Route>  
-            <Route path="/email/:emailId" element={<EmailDetails />} />  
+            <Route path="/email/:folder/:emailId" element={<EmailDetails />} />  
            
         </Routes>
       </main>

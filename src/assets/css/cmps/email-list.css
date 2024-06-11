@@ -1,9 +1,14 @@
-.email-list {
-    background:var(--background-white);
-    padding:20px 0 0 0;
-    border-radius:25px;
-    list-style:none;
+.email-list-container {
     grid-area: el;
+    background:var(--background-white);
+    border-radius:25px;
+}
+
+.email-list {
+    
+    padding:20px 0 0 0;
+   
+    list-style:none;
     overflow-y:scroll;
 }
 

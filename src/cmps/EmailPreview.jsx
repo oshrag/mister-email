@@ -1,12 +1,16 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import { utilService } from '../services/util.service.js'
 
+export function EmailPreview({email, onDelete, onStar, onToogleRead, folder}) {
 
-export function EmailPreview({email, onDelete, onStar, onToogleRead}) {
+
+    const params = useParams()
+    const editPath = `/email/${params.folder}/edit/${email.id}` 
+
     return (
         <article className={`email-preview ${email.isRead  ? 'read' : ''}`} >
-            <Link to={`/email/${email.id}`}>
+            <Link to={`/email/${folder}/${email.id}`}>
             <div className="inner"> 
                 <p className="star-check" > 
                     <input type="checkbox"/>
@@ -19,8 +23,11 @@ export function EmailPreview({email, onDelete, onStar, onToogleRead}) {
                     {/* <p className="exerpt" > {utilService.getXWords( email.body, 20)}  </p> */}
                 </div>
                 <p className="dateAndButtons"> 
-                    <span className="date"> {utilService.getDateDayMonth(email.sentAt)} </span>
-                    <button className="delete" onClick={(event) => { onDelete(); event.preventDefault() } }>delete</button>
+                    { email.status !== 'draft' ?  <span className="date"> {utilService.getDateDayMonth(email.sentAt)} </span> : <span className="date">draft</span>}
+                    
+                    { email.status === 'draft' ? <Link to={editPath}> <button className="edit"> edit</button></Link> : null}
+
+                    <button className="delete" onClick={(event) => { onDelete(); event.preventDefault() } }>delete</button> 
                     <button className="archive" >archive</button>
                     <button className="toogleRead"  onClick={(event) => { onToogleRead(); event.preventDefault() } } >toogle read </button>
                 </p> 

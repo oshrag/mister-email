@@ -1,4 +1,10 @@
 .email-filter {
+
+    position: fixed;
+    left: 200px;
+    top: 1rem;
+
+    
     margin-top:20px;
     display:flex;
     flex-direction: row;

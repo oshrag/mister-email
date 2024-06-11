@@ -12,8 +12,9 @@ export function EmailFilter({ filterBy, onSetFilterBy }) {
     }, [filterByToEdit])
 
     function handleChange({ target }) {
+        
         let { value, name: field, type } = target
-        value = type !== 'text' ? utilService.strToNullableBool(value) : value
+       // value = type !== 'text' ? utilService.strToNullableBool(value) : value
         setFilterByToEdit(prevFilterByToEdit => ({ ...prevFilterByToEdit, [field]: value }))
     }
 
@@ -29,30 +30,38 @@ export function EmailFilter({ filterBy, onSetFilterBy }) {
 
     function onSubmitFilter(ev) {
         ev.preventDefault()
+        // console.log('onSubmitFilter filterByToEdit:',filterByToEdit)
         onSetFilterBy(filterByToEdit)
     }
 
     const { status, text, isRead } = filterByToEdit
+
+
+
+   
+    
+   
+    const isReadStr = (isRead == '')  ?  "null"  :  isRead
+   
+
+
     return (
         <form onSubmit={onSubmitFilter} className="email-filter">
             <section>
                 <label htmlFor="text">search</label>
                 <input onChange={handleChange} name="text" id="text" type="text" value={text} />
             </section>
+           
             <section>
-                <label htmlFor="isReads" >Select by read/unread:</label>
-                
-                <select name="isRead" id="isRead" defaultValue={isRead === null ? 'all' : isRead} onChange={handleChange}>
+            
+                <select name="isRead" id="isRead" type="select" onChange={handleChange} defaultValue={isReadStr}>
                 <option value="true">Read</option>
-                <option value="false">Unread</option>
-                <option value="all">all</option>
+                <option value="false">UnRead</option>
+                <option value="null">all</option>
                 </select>
 
+
             </section>
-            {/* <section>
-                <label htmlFor="readStatus">readStatus</label>
-                <input onChange={handleChange} name="readStatus" id="readyStatus" type="boolean" value={readStatus} />
-            </section> */}
             <section>
                 <button>Submit</button>
             </section>

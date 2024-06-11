@@ -1,9 +1,51 @@
 .app-header { 
-    width:100%;
-    background:rgb(101, 99, 99);
+   
+    background:var(--light-gray);
     padding:10px;
+
+
+    display: flex;
+	justify-content: space-between;
+	height: 5rem;
+	width: 100%;
+}
+
+
+.app-header .app-header-logo {
+    max-height:50px;
+}
+
+
+.app-header .material-symbols-outlined {
+    text-indent:100px;
+    background-image: url('../../images/dots.jpg');
+    background-size:cover;
+    width: 50px;
+    height: 50px;
+    display: block;
+    overflow:hidden;
+}
+
+
+
+.app-header .app-header-hamburger {
+    position:relative;
+}
+.app-header .header-apps {
+	position: absolute;
+    right: 50px;
+	z-index: 999;
+}
+
+
+.app-header .header-apps img {
+    max-height:50px;
 }
 
 .app-header nav a {
     margin:10px;
+}
+
+.app-header nav.hidden {
+    display:none;
 }

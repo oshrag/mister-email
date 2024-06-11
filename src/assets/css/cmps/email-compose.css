@@ -6,9 +6,9 @@
     right:20px;
     text-align:left;
     border-radius:25px 25px 0 0;
-    -webkit-box-shadow: -1px -6px 33px -14px rgba(97,97,97,1);
-    -moz-box-shadow: -1px -6px 33px -14px rgba(97,97,97,1);
-    box-shadow: -1px -6px 33px -14px rgba(97,97,97,1);
+    
+    box-shadow: 0 0 0 100vmax rgba(0,0,0,0.25);
+    
     z-index:9;
 }
 .email-compose .compose-header {

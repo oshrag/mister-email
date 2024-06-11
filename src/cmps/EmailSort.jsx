@@ -1,28 +1,53 @@
 import { useEffect, useState } from "react"
 
 
-export function EmailSort({sortOrder, onSetOrder}){
+export function EmailSort({sort2, onSetSort2}){
 
-    const [order, setOrder] = useState(sortOrder)
+    
+    const [sort, setSort] = useState(sort2)
+
+
 
     useEffect(() => {
-        onSetOrder(order)
-    }, [order])
+       
+        onSetSort2(sort)
 
-    function handleChange({ target }) {
-        let { value, name: field } = target
-        console.log('Email sort handleChange target.value:', target.value)
-        setOrder(prevOrder => ({ ...prevOrder, [field]: value }))
+    }, [sort])
+
+    // function handleChange({ target }) {
+    //     let { value, name: field } = target
+    //     setOrder(prevOrder => ({ ...prevOrder, [field]: value }))
+    // }
+
+
+    function onClickSort(by) {
+      //  ev.preventDefault;
+       
+        console.log('onClickSort : by', by)
+     //   console.log('onClickSort :ev.target', ev.target)
+        setSort(prevSort => ({by: by, dir: prevSort.dir * -1}))
     }
 
-
+    const sorts = ['read', 'starred', 'date', 'subject']
     return (
-        <form >
-            <label htmlFor="sortOrder">Sort By Date:</label>
-            <select name="sortOrder" id="sortOrder"  defaultValue={order} onChange={handleChange}>
-                <option value="desc">new on top</option>
-                <option value="asc">old on top</option>
-            </select>
+        <form className ="email-sort">
+           
+            
+            { sorts.map((by)=> 
+
+                <button 
+                key={by}
+                className={`sortBy${by}`} 
+                onClick={() => {onClickSort(by)}}>
+                {by} 
+                {(sort.by === by && sort.dir === 1) && <span>&darr;</span>}
+                {(sort.by === by && sort.dir === -1) && <span>&uarr;</span>}
+                </button>
+            )}
+            
+         
+            
+            
         </form>
     )
 }

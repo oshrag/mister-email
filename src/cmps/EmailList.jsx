@@ -1,10 +1,12 @@
 
 import { EmailPreview } from "./EmailPreview"
 import { Outlet } from 'react-router-dom'
+import { useParams } from "react-router-dom";
 
 
 export function EmailList({emails, onEmailStatusChange, onDeleteEmail}) {
     
+    const params = useParams()
 
 
     return (
@@ -15,14 +17,14 @@ export function EmailList({emails, onEmailStatusChange, onDeleteEmail}) {
                         <EmailPreview email={email} 
                         onDelete={() =>  onDeleteEmail(email.id) } 
                         onStar={() =>  onEmailStatusChange(email.id,  'isStarred' ,!email.isStarred)} 
-                        onToogleRead={() =>  onEmailStatusChange(email.id, 'isRead', !email.isRead)} />
+                        onToogleRead={() =>  onEmailStatusChange(email.id, 'isRead', !email.isRead)}
+                        folder = {params.folder}/>
                         {/* <section className="email-actions">
                             <button onClick={() => onRemoveRobot(robot.id)}>X</button>
                         </section> */}
                     </li>
                 )}
             </ul>
-                  <Outlet/>      
             </div>    
        
     )

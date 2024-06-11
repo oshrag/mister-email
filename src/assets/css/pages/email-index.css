@@ -12,7 +12,7 @@
 .email-index aside {
     grid-area:as;
     padding:10px;
-    z-index:999;
+    z-index:8;
 }
 
 .email-index .btn-compose {
