@@ -12,7 +12,6 @@ import {
 
 import { EmailList } from "../cmps/EmailList";
 import { EmailFilter } from "../cmps/EmailFilter";
-import { EmailCompose } from "../cmps/EmailCompose";
 import { EmailSort } from "../cmps/EmailSort";
 import { EmailFilterFolder } from "../cmps/EmailFilterFolder";
 import { EmailFolderList } from "../cmps/EmailFolderList";
@@ -27,14 +26,16 @@ export function EmailIndex() {
     emailService.getFilterFromSearchParams(searchParams)
   );
   // const [sortOrder, setSortOrder] = useState(emailService.getDefaultSort())
-  const [sort2, setSort2] = useState(emailService.getDefaultSort2());
+  const [sort2, setSort2] = useState(
+    emailService.getSortFromSearchParams(searchParams)
+  );
 
   useEffect(() => {
     updateUnReadCount();
   }, [emails]);
 
   useEffect(() => {
-    setSearchParams(filterBy);
+    setSearchParams({ ...filterBy, ...sort2 });
     loadEmails();
   }, [filterBy, sort2, params.folder]);
 
@@ -52,7 +53,7 @@ export function EmailIndex() {
       setEmails(emails);
     } catch (error) {
       console.log("Having issues with loading emails:", error);
-      // showUserMsg('Problem!')
+      showUserMsg("Problem!");
     }
   }
 
@@ -74,7 +75,8 @@ export function EmailIndex() {
   }
 
   function onSetSort2(sort) {
-    setSort2((prevSort2) => ({ by: sort.by, dir: prevSort2.dir * -1 }));
+    // setSort2((prevSort2) => ({ by: sort.by, dir: prevSort2.dir * -1 }));
+    setSort2(sort);
   }
 
   async function onEmailStatusChange(id, propertyName, value) {
@@ -119,7 +121,7 @@ export function EmailIndex() {
   }
 
   const editPath = `/email/${params.folder}/edit/`;
-  const { text, isRead, status } = filterBy;
+  const { text, isRead } = filterBy;
   if (!emails) return <div>Loading...</div>;
   return (
     <section className="email-index">
@@ -127,7 +129,6 @@ export function EmailIndex() {
 
       <aside>
         <Link to={editPath}>Compose</Link>
-        {/* <button className="btn-compose" onClick={()=> { setToCompose(true) }}>compose</button> */}
         {/* <EmailFilterFolder  onSetFilterBy={onSetFilterBy} filterBy={{status}}/> */}
         <EmailFolderList count={unReadCount} />
       </aside>
@@ -141,7 +142,6 @@ export function EmailIndex() {
       </section>
 
       <Outlet context={{ onSaveEmail, onSaveDraft }} />
-      {/* { toCompose ? <EmailCompose onClose={() => { setToCompose(false)}}  onSend={onSend}/> : null } */}
     </section>
   );
 }

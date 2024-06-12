@@ -7,12 +7,15 @@ export const emailService = {
     remove,
     getById,
     getDefaultFilter,
-    getDefaultSort2,
-    getLogedOnUser,
     getFilterFromSearchParams,
+    getDefaultSort2,
+    getSortFromSearchParams,
+    getLogedOnUser,
     getFolders,
     createEmail,
-    getUnCountRead
+    getUnCountRead,
+    convertIsReadStatus
+    // convertSortDirection
 }
 
 const STORAGE_KEY = 'mister-email'
@@ -96,7 +99,7 @@ function save(emailToSave) {
 
 function getDefaultFilter() {
     return {
-        status: '', //'inbox/sent/star/trash'
+        // status: '', //'inbox/sent/star/trash'
         text: '',
         isRead: null //true/false/null
     }
@@ -107,10 +110,42 @@ function getDefaultFilter() {
 function getDefaultSort2() {
     return {
         by: 'date', //' read / stared / date / subject '
-        dir: 1 // ' 1 asc /  -1 desc'
+        dir: 1 // ' 1 - asc /  -1 - desc'
     }
 }
 
+
+
+
+function getFilterFromSearchParams(searchParams) {
+    // const filterBy = {
+    //     type: searchParams.get('type')
+    // }
+    const defaultFilter = getDefaultFilter()
+    const filterBy = {}
+    for (const field in defaultFilter) {
+        filterBy[field] = searchParams.get(field) || ''
+    }
+   
+    return filterBy
+
+}
+
+
+
+function getSortFromSearchParams(searchParams) {
+    // const filterBy = {
+    //     type: searchParams.get('type')
+    // }
+    const defaultSort = getDefaultSort2()
+    const sortBy = {}
+    for (const field in defaultSort) {
+        sortBy[field] = searchParams.get(field) || ''
+    }
+   
+    return sortBy
+
+}
 
 const defaultLogedOnUser = { 
     name: 'oshra', 
@@ -159,21 +194,6 @@ function _createEmails() {
 
 
 
-// function isMatchFilter(email, filterBy) {
-//     let { status = 'inbox', text = '',  isRead = false } = filterBy
-   
-   
-//     if (( status === 'draft') && (email.sentAt)) return false
-//     if (( status === 'inbox') && (email.to !== defaultLogedOnUser.email)) return false
-//     if (( status === 'sent') && (email.from !== defaultLogedOnUser.email)) return false
-
-//     if ((isRead !== null) && ( email.isRead != isRead) )  return false  
-    
-//     return email.subject.concat(' ', email.body).toLowerCase().includes(text.toLowerCase()) 
-
-// }
-
-
 function _filterMails(mails, filterBy) {
     if (filterBy.status) {
         
@@ -216,20 +236,6 @@ function _filterMailsByFolder(mails, folder) {
 
 
 
-function getFilterFromSearchParams(searchParams) {
-    // const filterBy = {
-    //     type: searchParams.get('type')
-    // }
-    const defaultFilter = getDefaultFilter()
-    const filterBy = {}
-    for (const field in defaultFilter) {
-        filterBy[field] = searchParams.get(field) || ''
-    }
-   
-    return filterBy
-
-}
-
 
 async function getUnCountRead(){
     let emails = await storageService.query(STORAGE_KEY)   
@@ -263,3 +269,14 @@ function getFolders(){
     ]
         
 }
+
+
+
+function convertIsReadStatus(isRead) {
+    return (isRead == '')  ?  "null"  :  isRead
+}
+
+
+// function convertSortDirection(dir) {
+//     return ( dir == '0') ? 1 : -1
+// }

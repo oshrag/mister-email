@@ -1,53 +1,48 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 
+export function EmailSort({ sort2, onSetSort2 }) {
+  const [sort, setSort] = useState(sort2);
 
-export function EmailSort({sort2, onSetSort2}){
+  useEffect(() => {
+    onSetSort2(sort);
+  }, [sort]);
 
-    
-    const [sort, setSort] = useState(sort2)
+  // function handleChange({ target }) {
+  //     let { value, name: field } = target
+  //     setOrder(prevOrder => ({ ...prevOrder, [field]: value }))
+  // }
 
+  function onClickSort(by) {
+    //  ev.preventDefault;
 
+    console.log("onClickSort : by", by);
 
-    useEffect(() => {
-       
-        onSetSort2(sort)
+    const dir = sort.by !== by ? 1 : sort.dir * -1;
+    const newSort = {
+      by,
+      dir,
+    };
 
-    }, [sort])
+    console.log("onClickSort :newSort", newSort);
+    setSort(newSort);
+  }
 
-    // function handleChange({ target }) {
-    //     let { value, name: field } = target
-    //     setOrder(prevOrder => ({ ...prevOrder, [field]: value }))
-    // }
-
-
-    function onClickSort(by) {
-      //  ev.preventDefault;
-       
-        console.log('onClickSort : by', by)
-     //   console.log('onClickSort :ev.target', ev.target)
-        setSort(prevSort => ({by: by, dir: prevSort.dir * -1}))
-    }
-
-    const sorts = ['read', 'starred', 'date', 'subject']
-    return (
-        <form className ="email-sort">
-           
-            
-            { sorts.map((by)=> 
-
-                <button 
-                key={by}
-                className={`sortBy${by}`} 
-                onClick={() => {onClickSort(by)}}>
-                {by} 
-                {(sort.by === by && sort.dir === 1) && <span>&darr;</span>}
-                {(sort.by === by && sort.dir === -1) && <span>&uarr;</span>}
-                </button>
-            )}
-            
-         
-            
-            
-        </form>
-    )
+  const sorts = ["read", "starred", "date", "subject"];
+  return (
+    <form className="email-sort">
+      {sorts.map((by) => (
+        <button
+          key={by}
+          className={`sortBy${by}`}
+          onClick={() => {
+            onClickSort(by);
+          }}
+        >
+          {by}
+          {sort.by === by && sort.dir === 1 && <span>&darr;</span>}
+          {sort.by === by && sort.dir === -1 && <span>&uarr;</span>}
+        </button>
+      ))}
+    </form>
+  );
 }
