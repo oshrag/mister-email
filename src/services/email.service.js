@@ -8,7 +8,7 @@ export const emailService = {
     getById,
     getDefaultFilter,
     getFilterFromSearchParams,
-    getDefaultSort2,
+    // getDefaultSort,
     getSortFromSearchParams,
     getLogedOnUser,
     getFolders,
@@ -106,17 +106,6 @@ function getDefaultFilter() {
 }
 
 
-
-function getDefaultSort2() {
-    return {
-        by: 'date', //' read / stared / date / subject '
-        dir: 1 // ' 1 - asc /  -1 - desc'
-    }
-}
-
-
-
-
 function getFilterFromSearchParams(searchParams) {
     // const filterBy = {
     //     type: searchParams.get('type')
@@ -132,12 +121,18 @@ function getFilterFromSearchParams(searchParams) {
 }
 
 
+function getDefaultSort() {
+    return {
+        by: 'date', //' read / starred / date / subject '
+        dir: 1 // ' 1 - asc /  -1 - desc'
+    }
+}
 
 function getSortFromSearchParams(searchParams) {
     // const filterBy = {
     //     type: searchParams.get('type')
     // }
-    const defaultSort = getDefaultSort2()
+    const defaultSort = getDefaultSort()
     const sortBy = {}
     for (const field in defaultSort) {
         sortBy[field] = searchParams.get(field) || ''

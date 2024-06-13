@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 
-export function EmailSort({ sort2, onSetSort2 }) {
-  const [sort, setSort] = useState(sort2);
+export function EmailSort({ sortBy, onSetSort }) {
+  const [sortByToEdit, setSortByToEdit] = useState(sortBy);
 
   useEffect(() => {
-    onSetSort2(sort);
-  }, [sort]);
+    // onSetSort(sortByToEdit);
+  }, [sortByToEdit]);
 
   // function handleChange({ target }) {
   //     let { value, name: field } = target
@@ -14,17 +14,15 @@ export function EmailSort({ sort2, onSetSort2 }) {
 
   function onClickSort(by) {
     //  ev.preventDefault;
+    const dir = sortByToEdit.by !== by ? 1 : sortByToEdit.dir * -1;
 
-    console.log("onClickSort : by", by);
-
-    const dir = sort.by !== by ? 1 : sort.dir * -1;
     const newSort = {
       by,
       dir,
     };
 
-    console.log("onClickSort :newSort", newSort);
-    setSort(newSort);
+    setSortByToEdit(newSort);
+    onSetSort(newSort);
   }
 
   const sorts = ["read", "starred", "date", "subject"];
@@ -39,8 +37,12 @@ export function EmailSort({ sort2, onSetSort2 }) {
           }}
         >
           {by}
-          {sort.by === by && sort.dir === 1 && <span>&darr;</span>}
-          {sort.by === by && sort.dir === -1 && <span>&uarr;</span>}
+          {sortByToEdit.by === by && sortByToEdit.dir === 1 && (
+            <span>&darr;</span>
+          )}
+          {sortByToEdit.by === by && sortByToEdit.dir === -1 && (
+            <span>&uarr;</span>
+          )}
         </button>
       ))}
     </form>

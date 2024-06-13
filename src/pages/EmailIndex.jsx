@@ -26,7 +26,7 @@ export function EmailIndex() {
     emailService.getFilterFromSearchParams(searchParams)
   );
   // const [sortOrder, setSortOrder] = useState(emailService.getDefaultSort())
-  const [sort2, setSort2] = useState(
+  const [sortBy, setSortBy] = useState(
     emailService.getSortFromSearchParams(searchParams)
   );
 
@@ -35,9 +35,9 @@ export function EmailIndex() {
   }, [emails]);
 
   useEffect(() => {
-    setSearchParams({ ...filterBy, ...sort2 });
+    setSearchParams({ ...filterBy, ...sortBy });
     loadEmails();
-  }, [filterBy, sort2, params.folder]);
+  }, [filterBy, sortBy, params.folder]);
 
   async function updateUnReadCount() {
     const value = await emailService.getUnCountRead();
@@ -48,7 +48,7 @@ export function EmailIndex() {
     try {
       const emails = await emailService.query(
         { ...filterBy, status: params.folder },
-        sort2
+        sortBy
       );
       setEmails(emails);
     } catch (error) {
@@ -74,9 +74,8 @@ export function EmailIndex() {
     setFilterBy((prevFilter) => ({ ...prevFilter, ...filterBy }));
   }
 
-  function onSetSort2(sort) {
-    // setSort2((prevSort2) => ({ by: sort.by, dir: prevSort2.dir * -1 }));
-    setSort2(sort);
+  function onSetSort(sortBy) {
+    setSortBy((prevSort) => ({ ...prevSort, ...sortBy }));
   }
 
   async function onEmailStatusChange(id, propertyName, value) {
@@ -133,7 +132,7 @@ export function EmailIndex() {
         <EmailFolderList count={unReadCount} />
       </aside>
       <section className="email-list-container">
-        <EmailSort sort2={sort2} onSetSort2={onSetSort2} />
+        <EmailSort sortBy={sortBy} onSetSort={onSetSort} />
         <EmailList
           emails={emails}
           onDeleteEmail={onDeleteEmail}
