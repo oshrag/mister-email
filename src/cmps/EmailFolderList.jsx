@@ -1,7 +1,7 @@
 import { emailService } from "../services/email.service.js";
 import { useNavigate, useParams } from "react-router-dom";
 
-export function EmailFolderList({ count }) {
+export function EmailFolderList({ unReadCount, isExpand }) {
   const navigate = useNavigate();
   const params = useParams();
 
@@ -17,18 +17,25 @@ export function EmailFolderList({ count }) {
   const folders = emailService.getFolders();
   return (
     <section className="email-folder-list">
-      {folders.map((folder) => (
-        <button
-          key={folder.name}
-          className={`folderName${folder.name}`}
-          onClick={() => {
-            onGoToFolder(folder.path);
-          }}
-        >
-          {folder.name}
-          {folder.name === "inbox" ? <span>{count}</span> : null}
-        </button>
-      ))}
+      <ul>
+        {folders.map((folder) => (
+          <li
+            key={folder.name}
+            className={
+              params.folder === folder.name
+                ? `folderName${folder.name} active`
+                : `folderName-${folder.name}`
+            }
+            onClick={() => {
+              onGoToFolder(folder.path);
+            }}
+          >
+            <span className="material-symbols-outlined">{folder.icon}</span>
+            {isExpand && <span>{folder.name}</span>}
+            {isExpand && folder.name === "inbox" && <span>{unReadCount}</span>}
+          </li>
+        ))}
+      </ul>
     </section>
   );
 }

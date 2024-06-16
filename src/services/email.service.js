@@ -243,22 +243,27 @@ function getFolders(){
     return [
         {
             name: 'inbox',
+            icon: 'inbox',
             path: 'inbox'
         },
         {
             name: 'sent',
+            icon: 'send',
             path: 'sent'
         },
         {
             name: 'draft',
+            icon: 'draft',
             path: 'draft'
         },
         {
             name: 'trash',
+            icon: 'Delete',
             path: 'trash'
         },
         {
             name: 'starred',
+            icon: 'star',
             path: 'starred'
         }
     ]

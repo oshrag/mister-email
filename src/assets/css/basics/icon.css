@@ -1,0 +1,7 @@
+.material-symbols-outlined {
+	user-select: none;
+	position: relative;
+	cursor: pointer;
+	font-variation-settings: 'FILL' 0, 'wght' 600, 'GRAD' 200, 'opsz' 48;
+	transition: 0.2s;
+}

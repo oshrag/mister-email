@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import { Link, useParams, useOutletContext } from "react-router-dom";
 import { emailService } from "../services/email.service.js";
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js";
+import { useSaveToDraft } from "../customHooks/useSaveToDraft.js";
+import { useEffectUpdate } from "../customHooks/useEffectUpdate.js";
 
 export function EmailCompose() {
   const params = useParams();
@@ -15,7 +17,9 @@ export function EmailCompose() {
     }
   }, []);
 
-  useEffect(() => {
+  // const onCancelSaveToDraft = useSaveToDraft(email, onAutoSaveDraft);
+
+  useEffectUpdate(() => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
       timeoutRef.current = null;
@@ -46,10 +50,10 @@ export function EmailCompose() {
         const addedMail = await onSaveDraft({ ...email, status: "draft" });
         // Update new mail ID for next uses
         setEmail(addedMail);
-        console.log("autosave addedMail - draft not sent", addedMail);
+        // console.log("autosave addedMail - draft not sent", addedMail);
       } else {
         onSaveDraft(email);
-        console.log("autosave second - draft not sent", email);
+        // console.log('autosave second - draft not sent',email)
         //onUpdateMail({ ...email })
       }
       showSuccessMsg("Draft saved");

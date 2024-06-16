@@ -15,6 +15,7 @@ import { EmailFilter } from "../cmps/EmailFilter";
 import { EmailSort } from "../cmps/EmailSort";
 import { EmailFilterFolder } from "../cmps/EmailFilterFolder";
 import { EmailFolderList } from "../cmps/EmailFolderList";
+import { EmailSidebar } from "../cmps/EmailSidebar";
 
 export function EmailIndex() {
   const params = useParams();
@@ -119,7 +120,7 @@ export function EmailIndex() {
     // loadEmails() //new mail will appeare acoording to relevant folder
   }
 
-  const editPath = `/email/${params.folder}/edit/`;
+  // const editPath = `/email/${params.folder}/edit/`;
   const { text, isRead } = filterBy;
   if (!emails) return <div>Loading...</div>;
   return (
@@ -127,9 +128,13 @@ export function EmailIndex() {
       <EmailFilter onSetFilterBy={onSetFilterBy} filterBy={{ text, isRead }} />
 
       <aside>
-        <Link to={editPath}>Compose</Link>
-        {/* <EmailFilterFolder  onSetFilterBy={onSetFilterBy} filterBy={{status}}/> */}
-        <EmailFolderList count={unReadCount} />
+        <EmailSidebar unReadCount={unReadCount} />
+        {/* <Link to={editPath}>
+          <span className="material-symbols-outlined">edit</span>
+          compose
+        </Link>
+        {/* <EmailFilterFolder  onSetFilterBy={onSetFilterBy} filterBy={{status}}/> * /}
+        <EmailFolderList count={unReadCount} /> */}
       </aside>
       <section className="email-list-container">
         <EmailSort sortBy={sortBy} onSetSort={onSetSort} />

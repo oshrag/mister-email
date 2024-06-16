@@ -1,0 +1,37 @@
+
+
+/* .email-sidebar.btn-compose {
+    background:var(--light-gray) url("../../images/pencil.png");
+    width:50px;
+    height:50px; 
+    background-position: center left;
+    background-repeat: no-repeat;
+    background-size: 30px;
+    text-indent: 50px;
+    overflow: hidden;
+    transition:all 500ms;
+} */
+
+/* .email-sidebar .btn-compose:hover {
+    width:200px;
+} */
+
+.mail-sidebar a.compose  {
+    background-color: rgb(132, 165, 191);
+    box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.25);
+
+    text-align:left;
+    display:flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap:10px;
+    padding:5px;
+    border-radius: 10px;
+
+
+}
+
+.mail-sidebar a.compose span {
+    color:black;
+}
