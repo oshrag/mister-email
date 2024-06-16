@@ -2,11 +2,13 @@ import { useState, useEffect, useRef } from "react";
 import { Link, useParams, useOutletContext } from "react-router-dom";
 import { emailService } from "../services/email.service.js";
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js";
-import { useSaveToDraft } from "../customHooks/useSaveToDraft.js";
+// import { useSaveToDraft } from "../customHooks/useSaveToDraft.js";
 import { useEffectUpdate } from "../customHooks/useEffectUpdate.js";
+import { ViewStream } from "@mui/icons-material";
 
 export function EmailCompose() {
   const params = useParams();
+  const [viewState, setViewState] = useState("normal");
   const { onSaveEmail, onSaveDraft } = useOutletContext();
   const [email, setEmail] = useState(emailService.createEmail);
   const timeoutRef = useRef();
@@ -18,6 +20,8 @@ export function EmailCompose() {
   }, []);
 
   // const onCancelSaveToDraft = useSaveToDraft(email, onAutoSaveDraft);
+
+  useEffectUpdate(() => {}, [viewState]);
 
   useEffectUpdate(() => {
     if (timeoutRef.current) {
@@ -50,10 +54,8 @@ export function EmailCompose() {
         const addedMail = await onSaveDraft({ ...email, status: "draft" });
         // Update new mail ID for next uses
         setEmail(addedMail);
-        // console.log("autosave addedMail - draft not sent", addedMail);
       } else {
         onSaveDraft(email);
-        // console.log('autosave second - draft not sent',email)
         //onUpdateMail({ ...email })
       }
       showSuccessMsg("Draft saved");
@@ -83,15 +85,45 @@ export function EmailCompose() {
     onSaveEmail({ ...email, sentAt: Date.now(), status: "sent" });
   }
 
+  function onChangeView(view) {
+    setViewState(view);
+  }
+
   const closePath = `/email/${params.folder}`;
 
   const { subject, body, from, to } = email;
 
   return (
-    <section className="email-compose">
+    <section className={`email-compose ${viewState}`}>
       <section className="compose-header">
         <span>{email.id ? "edit" : "new"} email </span>{" "}
-        <Link to={closePath}>X</Link>
+        {viewState !== "normal" ? (
+          <span
+            className="material-symbols-outlined"
+            onClick={() => onChangeView("normal")}
+          >
+            add
+          </span>
+        ) : null}
+        {viewState !== "minimize" ? (
+          <span
+            className="material-symbols-outlined"
+            onClick={() => onChangeView("minimize")}
+          >
+            minimize
+          </span>
+        ) : null}
+        {viewState !== "maximize" ? (
+          <span
+            className="material-symbols-outlined"
+            onClick={() => onChangeView("maximize")}
+          >
+            open_in_full
+          </span>
+        ) : null}
+        <Link to={closePath}>
+          <span className="material-symbols-outlined">close</span>
+        </Link>
       </section>
 
       <form onSubmit={onSubmitEmail}>

@@ -12,12 +12,13 @@
     z-index:9;
 }
 .email-compose .compose-header {
+    
     background:#ddd;
     color:black;
     padding:5px 20px;
     border-radius:25px 25px 0 0;
     display:grid;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 1fr repeat(4,auto);
     line-height:2em;
     font-size:1em;
 }
@@ -66,4 +67,24 @@
     -webkit-box-shadow: 0px 0px 2px 0px rgba(84,30,201,1);
 -moz-box-shadow: 0px 0px 2px 0px rgba(84,30,201,1);
 box-shadow: 0px 0px 2px 0px rgba(84,30,201,1);
+}
+
+
+
+.email-compose.maximize {
+    width:70vw;
+    position:absolute;
+    background:#fff;
+    top:10vh;
+}
+
+.email-compose.maximize form{
+    display:grid;
+    height:80vh;
+    grid-template-rows: auto auto 1fr auto;
+   
+}
+
+.email-compose.minimize form{
+    display:none;
 }
