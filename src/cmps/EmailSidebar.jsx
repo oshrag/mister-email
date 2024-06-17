@@ -8,7 +8,8 @@ export function EmailSidebar({ unReadCount }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const shouldExpandClass = isExpanded ? "expanded" : "";
 
-  const editPath = `/email/${params.folder}/edit/`;
+  //   const editPath = `/email/${params.folder}/edit/`;
+  const editPath = `/email/${params.folder}/?compose=new`;
 
   return (
     <section

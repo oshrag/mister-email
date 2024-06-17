@@ -31,12 +31,15 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<AboutUs />} />
             <Route path="/email/:folder" element={<EmailIndex />}>
-              <Route
+              {/* <Route
                 path="/email/:folder/edit/:emailId?"
                 element={<EmailCompose />}
+              /> */}
+              <Route
+                path="/email/:folder/:emailId"
+                element={<EmailDetails />}
               />
             </Route>
-            <Route path="/email/:folder/:emailId" element={<EmailDetails />} />
           </Routes>
         </main>
 

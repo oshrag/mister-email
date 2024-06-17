@@ -12,7 +12,7 @@ export function EmailPreview({
   folder,
 }) {
   const params = useParams();
-  const editPath = `/email/${params.folder}/edit/${email.id}`;
+  const editPath = `/email/${params.folder}/?compose=${email.id}`;
 
   return (
     <article className={`email-preview ${email.isRead ? "read" : ""}`}>

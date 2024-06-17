@@ -1,20 +1,35 @@
 import { useState, useEffect, useRef } from "react";
-import { Link, useParams, useOutletContext } from "react-router-dom";
+import {
+  Link,
+  useParams,
+  useSearchParams,
+  useOutletContext,
+} from "react-router-dom";
 import { emailService } from "../services/email.service.js";
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js";
 // import { useSaveToDraft } from "../customHooks/useSaveToDraft.js";
 import { useEffectUpdate } from "../customHooks/useEffectUpdate.js";
-import { ViewStream } from "@mui/icons-material";
+import { useForm } from "../customHooks/useForm.js";
 
-export function EmailCompose() {
+export function EmailCompose({ onSaveEmail, onSaveDraft }) {
   const params = useParams();
   const [viewState, setViewState] = useState("normal");
-  const { onSaveEmail, onSaveDraft } = useOutletContext();
-  const [email, setEmail] = useState(emailService.createEmail);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  //const { onSaveEmail, onSaveDraft } = useOutletContext();
+  const [email, setEmail] = useState(
+    emailService.getMailFromSearchParams(searchParams)
+  );
   const timeoutRef = useRef();
 
+  // const [email, handleChange] = useForm(
+  //   emailService.getMailFromSearchParams(searchParams)
+  // );
+
   useEffect(() => {
-    if (params.emailId) {
+    const mailId = searchParams.get("compose");
+    if (mailId && mailId !== "new") {
+      //emailService.getById(mailId).then(setEmail);
       loadEmail();
     }
   }, []);
@@ -39,7 +54,8 @@ export function EmailCompose() {
 
   async function loadEmail() {
     try {
-      const email = await emailService.getById(params.emailId);
+      const mailId = searchParams.get("compose");
+      const email = await emailService.getById(mailId);
       setEmail(email);
     } catch (error) {
       console.log("error:", error);
@@ -48,15 +64,12 @@ export function EmailCompose() {
 
   async function onAutoSaveDraft(email) {
     try {
-      //onSaveDraft(email)
       if (!email.id) {
-        //const addedMail = await onAddMail(email)
         const addedMail = await onSaveDraft({ ...email, status: "draft" });
         // Update new mail ID for next uses
         setEmail(addedMail);
       } else {
         onSaveDraft(email);
-        //onUpdateMail({ ...email })
       }
       showSuccessMsg("Draft saved");
     } catch (err) {

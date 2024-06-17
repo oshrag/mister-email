@@ -1,30 +1,23 @@
 import { useEffect, useState } from "react";
 import { emailService } from "../services/email.service.js";
+import { useForm } from "../customHooks/useForm.js";
 
 export function EmailFilter({ filterBy, onSetFilterBy }) {
-  const [filterByToEdit, setFilterByToEdit] = useState(filterBy);
+  //const [filterByToEdit, setFilterByToEdit] = useState(filterBy);
 
-  useEffect(() => {
-    // onSetFilterBy(filterByToEdit) //update EmailIndex without Submit Btn
-  }, [filterByToEdit]);
+  const [filterByToEdit, handleChange] = useForm(filterBy, onSetFilterBy);
 
-  function handleChange({ target }) {
-    let { value, name: field, type } = target;
-    // value = type !== 'text' ? utilService.strToNullableBool(value) : value
-    setFilterByToEdit((prevFilterByToEdit) => ({
-      ...prevFilterByToEdit,
-      [field]: value,
-    }));
-  }
+  // useEffect(() => {
+  //   onSetFilterBy(filterByToEdit); //update EmailIndex without Submit Btn
+  // }, [filterByToEdit]);
 
-  // function handleTextChange({ target }) {
-  //     const value = target.value
-  //     setFilterByToEdit(prevFilterByToEdit => ({ ...prevFilterByToEdit, text: value}))
-  // }
-
-  // function handleSelectChange({ target }) {
-  //     const value = target.value
-  //     setFilterByToEdit(prevFilterByToEdit => ({ ...prevFilterByToEdit, isRead: utilService.strToNullableBool(value)}))
+  // function handleChange({ target }) {
+  //   let { value, name: field, type } = target;
+  //   // value = type !== 'text' ? utilService.strToNullableBool(value) : value
+  //   setFilterByToEdit((prevFilterByToEdit) => ({
+  //     ...prevFilterByToEdit,
+  //     [field]: value,
+  //   }));
   // }
 
   function onSubmitFilter(ev) {
@@ -34,8 +27,6 @@ export function EmailFilter({ filterBy, onSetFilterBy }) {
   }
 
   const { text, isRead } = filterByToEdit;
-
-  // const isReadStr = (isRead == '')  ?  "null"  :  isRead
 
   return (
     <form onSubmit={onSubmitFilter} className="email-filter">

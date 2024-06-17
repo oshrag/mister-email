@@ -16,6 +16,7 @@ import { EmailSort } from "../cmps/EmailSort";
 import { EmailFilterFolder } from "../cmps/EmailFilterFolder";
 import { EmailFolderList } from "../cmps/EmailFolderList";
 import { EmailSidebar } from "../cmps/EmailSidebar";
+import { EmailCompose } from "../cmps/EmailCompose";
 
 export function EmailIndex() {
   const params = useParams();
@@ -110,17 +111,26 @@ export function EmailIndex() {
   async function onSaveDraft(newEmailToSave) {
     try {
       let entitywithID = await emailService.save(newEmailToSave);
-      // setEmails(prevEmails => [ ...prevEmails, entitywithID ])
+
+      setEmails((prevMails) =>
+        prevMails.map((mail) =>
+          mail.id === entitywithID.id ? entitywithID : mail
+        )
+      );
+
+      //setEmails((prevEmails) => [...prevEmails, entitywithID]);
       // const closePath = `/email/${params.folder}`
       // navigate(closePath)
       return entitywithID;
     } catch (error) {
       console.log("Having issues saving email draft:", error);
     }
-    // loadEmails() //new mail will appeare acoording to relevant folder
+    loadEmails(); //new mail will appeare acoording to relevant folder
   }
 
   // const editPath = `/email/${params.folder}/edit/`;
+  const isComposeOpen = !!searchParams.get("compose");
+  console.log("isComposeOpen:", isComposeOpen);
   const { text, isRead } = filterBy;
   if (!emails) return <div>Loading...</div>;
   return (
@@ -129,23 +139,27 @@ export function EmailIndex() {
 
       <aside>
         <EmailSidebar unReadCount={unReadCount} />
-        {/* <Link to={editPath}>
-          <span className="material-symbols-outlined">edit</span>
-          compose
-        </Link>
-        {/* <EmailFilterFolder  onSetFilterBy={onSetFilterBy} filterBy={{status}}/> * /}
-        <EmailFolderList count={unReadCount} /> */}
       </aside>
       <section className="email-list-container">
-        <EmailSort sortBy={sortBy} onSetSort={onSetSort} />
-        <EmailList
-          emails={emails}
-          onDeleteEmail={onDeleteEmail}
-          onEmailStatusChange={onEmailStatusChange}
-        />
+        {/* If no params! show sort and list */}
+        {!params.emailId && <EmailSort sortBy={sortBy} onSetSort={onSetSort} />}
+
+        {!params.emailId && (
+          <EmailList
+            emails={emails}
+            onDeleteEmail={onDeleteEmail}
+            onEmailStatusChange={onEmailStatusChange}
+          />
+        )}
+        {/* If params! show details via outlet */}
+        {params.emailId && <Outlet />}
       </section>
 
-      <Outlet context={{ onSaveEmail, onSaveDraft }} />
+      {/* <Outlet context={{ onSaveEmail, onSaveDraft }} /> */}
+
+      {isComposeOpen && (
+        <EmailCompose onSaveEmail={onSaveEmail} onSaveDraft={onSaveDraft} />
+      )}
     </section>
   );
 }

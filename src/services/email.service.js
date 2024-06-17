@@ -7,9 +7,10 @@ export const emailService = {
     remove,
     getById,
     getDefaultFilter,
+    getEmptyMail,
     getFilterFromSearchParams,
-    // getDefaultSort,
     getSortFromSearchParams,
+    getMailFromSearchParams,
     getLogedOnUser,
     getFolders,
     createEmail,
@@ -41,7 +42,7 @@ async function query(filterBy, sortOrder) {
 
 
             // emails = emails.filter(email => isMatchFilter(email,filterBy))
-            // console.log('email-srevice query filterBy:', filterBy)
+            //console.log('email-srevice query filterBy:', filterBy)
             
             emails =  _filterMails(emails,  filterBy)
             
@@ -141,6 +142,29 @@ function getSortFromSearchParams(searchParams) {
     return sortBy
 
 }
+function getMailFromSearchParams(searchParams = { get: () => { } }) {
+    const mail = getEmptyMail()
+    // Change only wanted fields in the mail obj
+    mail.subject = searchParams.get('subject') || ''
+    mail.body = searchParams.get('body') || ''
+    mail.to = searchParams.get('to') || ''
+    return mail
+}
+
+function getEmptyMail(
+    subject = '',
+    body = '',
+    sentAt = '',
+    from = defaultLogedOnUser.email,
+    to = '',
+    isRead = false,
+    isStarred = false,
+    removedAt = null
+) {
+    return { id: '', subject, body, sentAt, from, to, isRead, isStarred, removedAt }
+}
+
+
 
 const defaultLogedOnUser = { 
     name: 'oshra', 
@@ -196,8 +220,9 @@ function _filterMails(mails, filterBy) {
     }
     if (filterBy.text) {
          
-        const regExp = new RegExp(filterBy.txt, 'i')
+        const regExp = new RegExp(filterBy.text, 'i')
         mails = mails.filter(mail => regExp.test(mail.subject) || regExp.test(mail.body) || regExp.test(mail.from))
+
     }
     if (filterBy.isRead !== null && filterBy.isRead !== undefined && filterBy.isRead !== '' && filterBy.isRead !== 'null') {
         const isReadToCompare = (filterBy.isRead === 'true') ? true : false
