@@ -6,10 +6,9 @@
 
 .email-list {
     
-    padding:20px 0 0 0;
-   
     list-style:none;
     overflow-y:scroll;
+    height:90vh;
 }
 
 .email-list ul {

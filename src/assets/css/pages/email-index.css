@@ -5,7 +5,7 @@
     grid-template-columns:auto 1fr; 
     grid-template-areas: "fl fl"
                          "as el";
-    height:90vh;
+    /* height:90vh; */
 }
 
 .email-index aside {

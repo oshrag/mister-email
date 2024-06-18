@@ -17,10 +17,10 @@ import { EmailFilterFolder } from "../cmps/EmailFilterFolder";
 import { EmailFolderList } from "../cmps/EmailFolderList";
 import { EmailSidebar } from "../cmps/EmailSidebar";
 import { EmailCompose } from "../cmps/EmailCompose";
+import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js";
 
 export function EmailIndex() {
   const params = useParams();
-  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const [emails, setEmails] = useState(null);
   const [unReadCount, setUnReadCount] = useState(0);
@@ -37,13 +37,28 @@ export function EmailIndex() {
   }, [emails]);
 
   useEffect(() => {
-    setSearchParams({ ...filterBy, ...sortBy });
+    //setSearchParams({ ...filterBy, ...sortBy });
+    renderSearchParams();
     loadEmails();
   }, [filterBy, sortBy, params.folder]);
 
   async function updateUnReadCount() {
     const value = await emailService.getUnCountRead();
     setUnReadCount(value);
+  }
+
+  function renderSearchParams() {
+    // Build your obj for search params - do it to in a cool service clean function ;)
+    const filterForParams = {
+      txt: filterBy.txt || "",
+      isRead: filterBy.isRead + "" || "",
+      isStarred: filterBy.isStarred || "",
+      sortBy: sortBy.by || "",
+      compose: searchParams.get("compose") || "",
+      to: searchParams.get("to") || "",
+      subject: searchParams.get("subject") || "",
+    };
+    setSearchParams(filterForParams);
   }
 
   async function loadEmails() {
@@ -94,43 +109,84 @@ export function EmailIndex() {
     }
   }
 
-  async function onSaveEmail(newEmailToSave) {
+  async function onUpdateEmail(mail) {
     try {
-      console.log("onSaveEmail newEmailToSave:", newEmailToSave);
-      let entitywithID = await emailService.save(newEmailToSave);
-      // setEmails(prevEmails => [ ...prevEmails, entitywithID ])
-      console.log("onSaveEmail entitywithID:", entitywithID);
-      const closePath = `/email/${params.folder}`;
-      navigate(closePath);
-    } catch (error) {
-      console.log("Having issues saving email after edit:", error);
+      const updatedMail = await emailService.save(mail);
+      //* different folders require different state updates (Eg. Draft mail should be removed when sent and otherwise mail should be updated)
+      if (params.folder === "draft" && updatedMail.sentAt) {
+        setEmails((prevMails) =>
+          prevMails.filter((m) => m.id !== updatedMail.id)
+        );
+      } else if (params.folder === "sent" && updatedMail.sentAt) {
+        setEmails((prevMails) => [updatedMail, ...prevMails]);
+      } else {
+        setEmails((prevMails) =>
+          prevMails.map((mail) =>
+            mail.id === updatedMail.id ? updatedMail : mail
+          )
+        );
+      }
+    } catch (err) {
+      showErrorMsg("Can not update mail");
+      console.log("Had issues updating mail", err);
     }
-    loadEmails(); //new mail will appeare acoording to relevant folder
   }
 
-  async function onSaveDraft(newEmailToSave) {
+  async function onAddEmail(mail) {
     try {
-      let entitywithID = await emailService.save(newEmailToSave);
-
-      setEmails((prevMails) =>
-        prevMails.map((mail) =>
-          mail.id === entitywithID.id ? entitywithID : mail
-        )
-      );
-
-      //setEmails((prevEmails) => [...prevEmails, entitywithID]);
-      // const closePath = `/email/${params.folder}`
-      // navigate(closePath)
-      return entitywithID;
-    } catch (error) {
-      console.log("Having issues saving email draft:", error);
+      const savedMail = await emailService.save({ ...mail });
+      if (
+        (params.folder === "sent" && savedMail.sentAt) ||
+        (params.folder === "draft" && !savedMail.sentAt)
+      ) {
+        setEmails((prevMails) => [savedMail, ...prevMails]);
+      }
+      const msg = !savedMail.sentAt
+        ? "Mail saved to draft"
+        : "Mail Sent to " + savedMail.to;
+      showSuccessMsg(msg);
+      return savedMail;
+    } catch (err) {
+      showErrorMsg("Sending mail failed");
+      console.log("Had issues sending mail", err);
     }
-    loadEmails(); //new mail will appeare acoording to relevant folder
   }
 
-  // const editPath = `/email/${params.folder}/edit/`;
+  // async function onSaveEmail(newEmailToSave) {
+  //   try {
+  //     console.log("onSaveEmail newEmailToSave:", newEmailToSave);
+  //     let entitywithID = await emailService.save(newEmailToSave);
+  //     // setEmails(prevEmails => [ ...prevEmails, entitywithID ])
+  //     console.log("onSaveEmail entitywithID:", entitywithID);
+  //     const closePath = `/email/${params.folder}`;
+  //     navigate(closePath);
+  //   } catch (error) {
+  //     console.log("Having issues saving email after edit:", error);
+  //   }
+  //   loadEmails(); //new mail will appeare acoording to relevant folder
+  // }
+
+  // async function onSaveDraft(newEmailToSave) {
+  //   try {
+  //     let entitywithID = await emailService.save(newEmailToSave);
+
+  //     setEmails((prevMails) =>
+  //       prevMails.map((mail) =>
+  //         mail.id === entitywithID.id ? entitywithID : mail
+  //       )
+  //     );
+
+  //     //setEmails((prevEmails) => [...prevEmails, entitywithID]);
+  //     // const closePath = `/email/${params.folder}`
+  //     // navigate(closePath)
+  //     return entitywithID;
+  //   } catch (error) {
+  //     console.log("Having issues saving email draft:", error);
+  //   }
+  //   loadEmails(); //new mail will appeare acoording to relevant folder
+  // }
+
   const isComposeOpen = !!searchParams.get("compose");
-  console.log("isComposeOpen:", isComposeOpen);
   const { text, isRead } = filterBy;
   if (!emails) return <div>Loading...</div>;
   return (
@@ -155,10 +211,12 @@ export function EmailIndex() {
         {params.emailId && <Outlet />}
       </section>
 
-      {/* <Outlet context={{ onSaveEmail, onSaveDraft }} /> */}
-
       {isComposeOpen && (
-        <EmailCompose onSaveEmail={onSaveEmail} onSaveDraft={onSaveDraft} />
+        <EmailCompose
+          onAddEmail={onAddEmail}
+          onUpdateEmail={onUpdateEmail}
+          folder={params.folder}
+        />
       )}
     </section>
   );

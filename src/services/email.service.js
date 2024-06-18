@@ -143,7 +143,8 @@ function getSortFromSearchParams(searchParams) {
 
 }
 function getMailFromSearchParams(searchParams = { get: () => { } }) {
-    const mail = getEmptyMail()
+    let mail = getEmptyMail()
+
     // Change only wanted fields in the mail obj
     mail.subject = searchParams.get('subject') || ''
     mail.body = searchParams.get('body') || ''
