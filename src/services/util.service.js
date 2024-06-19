@@ -4,7 +4,8 @@ export const utilService = {
     saveToStorage,
     loadFromStorage,
     getDateDayMonth,
-    getXWords
+    getXWords,
+    debounce
     // strToNullableBool,
 }
 
@@ -55,3 +56,14 @@ function getXWords(str, x) {
 //    return mapObjStrNullableBool[str]
 // }
 
+function debounce(func, timeout = 500) {
+    let timer
+    
+    return (...args) => {
+        clearTimeout(timer)
+        timer = setTimeout(() => {
+            // func.call(this, ...args)
+            func(...args)
+        }, timeout)
+    }
+}

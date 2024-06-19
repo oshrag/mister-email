@@ -13,6 +13,7 @@ import "./assets/css/index.css";
 import { Home } from "./pages/Home";
 import { AppHeader } from "./cmps/AppHeader";
 import { AboutUs } from "./pages/AboutUs";
+import { Dashboard } from "./pages/Dashboard";
 import { EmailIndex } from "./pages/EmailIndex";
 import { EmailDetails } from "./cmps/EmailDetails";
 import { EmailCompose } from "./cmps/EmailCompose";
@@ -30,11 +31,8 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<AboutUs />} />
+            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/email/:folder" element={<EmailIndex />}>
-              {/* <Route
-                path="/email/:folder/edit/:emailId?"
-                element={<EmailCompose />}
-              /> */}
               <Route
                 path="/email/:folder/:emailId"
                 element={<EmailDetails />}

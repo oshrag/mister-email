@@ -50,7 +50,7 @@ export function EmailIndex() {
   function renderSearchParams() {
     // Build your obj for search params - do it to in a cool service clean function ;)
     const filterForParams = {
-      txt: filterBy.txt || "",
+      text: filterBy.text || "",
       isRead: filterBy.isRead + "" || "",
       isStarred: filterBy.isStarred || "",
       sortBy: sortBy.by || "",
@@ -151,40 +151,6 @@ export function EmailIndex() {
       console.log("Had issues sending mail", err);
     }
   }
-
-  // async function onSaveEmail(newEmailToSave) {
-  //   try {
-  //     console.log("onSaveEmail newEmailToSave:", newEmailToSave);
-  //     let entitywithID = await emailService.save(newEmailToSave);
-  //     // setEmails(prevEmails => [ ...prevEmails, entitywithID ])
-  //     console.log("onSaveEmail entitywithID:", entitywithID);
-  //     const closePath = `/email/${params.folder}`;
-  //     navigate(closePath);
-  //   } catch (error) {
-  //     console.log("Having issues saving email after edit:", error);
-  //   }
-  //   loadEmails(); //new mail will appeare acoording to relevant folder
-  // }
-
-  // async function onSaveDraft(newEmailToSave) {
-  //   try {
-  //     let entitywithID = await emailService.save(newEmailToSave);
-
-  //     setEmails((prevMails) =>
-  //       prevMails.map((mail) =>
-  //         mail.id === entitywithID.id ? entitywithID : mail
-  //       )
-  //     );
-
-  //     //setEmails((prevEmails) => [...prevEmails, entitywithID]);
-  //     // const closePath = `/email/${params.folder}`
-  //     // navigate(closePath)
-  //     return entitywithID;
-  //   } catch (error) {
-  //     console.log("Having issues saving email draft:", error);
-  //   }
-  //   loadEmails(); //new mail will appeare acoording to relevant folder
-  // }
 
   const isComposeOpen = !!searchParams.get("compose");
   const { text, isRead } = filterBy;

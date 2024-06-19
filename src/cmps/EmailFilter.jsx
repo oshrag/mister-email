@@ -54,9 +54,9 @@ export function EmailFilter({ filterBy, onSetFilterBy }) {
           <option value="null">all</option>
         </select>
       </section>
-      <section>
+      {/* <section>
         <button>Submit</button>
-      </section>
+      </section> */}
     </form>
   );
 }

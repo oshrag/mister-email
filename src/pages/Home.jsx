@@ -13,6 +13,8 @@ export function Home() {
       <Link to={"/email/inbox?compose=new&to=help@gmail.com&subject=Help"}>
         help
       </Link>
+
+      <Link to={"/dashboard"}>My Acount</Link>
       {/* <img src={imgUrl} alt="" /> */}
     </section>
   );
