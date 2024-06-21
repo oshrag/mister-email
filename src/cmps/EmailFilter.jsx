@@ -1,11 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { emailService } from "../services/email.service.js";
+import { utilService } from "../services/util.service.js";
+
 import { useForm } from "../customHooks/useForm.js";
 
 export function EmailFilter({ filterBy, onSetFilterBy }) {
   //const [filterByToEdit, setFilterByToEdit] = useState(filterBy);
 
-  const [filterByToEdit, handleChange] = useForm(filterBy, onSetFilterBy);
+  const debounceOnSetFilterBy = useRef(utilService.debounce(onSetFilterBy));
+
+  const [filterByToEdit, handleChange] = useForm(
+    filterBy,
+    debounceOnSetFilterBy.current
+  );
 
   // useEffect(() => {
   //   onSetFilterBy(filterByToEdit); //update EmailIndex without Submit Btn

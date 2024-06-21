@@ -28,8 +28,8 @@ export function EmailPreview({
           <button
             className={`star ${email.isStarred ? "stared" : ""}`}
             onClick={(event) => {
+              event.stopPropagation();
               onStar();
-              event.preventDefault();
             }}
           >
             s
@@ -73,8 +73,8 @@ export function EmailPreview({
             <button
               className="delete"
               onClick={(event) => {
+                event.stopPropagation();
                 onDelete();
-                event.preventDefault();
               }}
             >
               delete
@@ -83,20 +83,27 @@ export function EmailPreview({
             <button
               className="delete"
               onClick={(event) => {
+                event.stopPropagation();
                 onRemove();
-                event.preventDefault();
               }}
             >
               delete
             </button>
           )}
 
-          <button className="archive">archive</button>
+          <button
+            className="archive"
+            onClick={(event) => {
+              event.stopPropagation();
+            }}
+          >
+            archive
+          </button>
           <button
             className="toogleRead"
             onClick={(event) => {
+              event.stopPropagation();
               onToogleRead();
-              event.preventDefault();
             }}
           >
             toogle read{" "}

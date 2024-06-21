@@ -17,6 +17,7 @@ import { EmailFilterFolder } from "../cmps/EmailFilterFolder";
 import { EmailFolderList } from "../cmps/EmailFolderList";
 import { EmailSidebar } from "../cmps/EmailSidebar";
 import { EmailCompose } from "../cmps/EmailCompose";
+import { EmailCompose2 } from "../cmps/EmailCompose2";
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js";
 
 export function EmailIndex() {
@@ -178,7 +179,7 @@ export function EmailIndex() {
       </section>
 
       {isComposeOpen && (
-        <EmailCompose
+        <EmailCompose2
           onAddEmail={onAddEmail}
           onUpdateEmail={onUpdateEmail}
           folder={params.folder}
